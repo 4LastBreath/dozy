@@ -1,0 +1,1 @@
+export const MAX_USERNAME_CH = 20;

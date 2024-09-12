@@ -1,0 +1,73 @@
+import { PropsWithChildren, useEffect, useState } from "react"
+import { AuthContext } from "./authContext";
+import { useToast } from "../toasts/toastContext";
+import axios from "axios";
+import api from "@/api";
+
+export type User = {
+  _id: string,
+  email: string,
+  username: string,
+  active: boolean | undefined,
+  avatar: string,
+  role: string,
+  lists: string[],
+}
+
+
+export const AuthProdiver = ({children}: PropsWithChildren) => {
+
+  const defaultUser: User = {
+    _id: '',
+    email: '',
+    username: '',
+    active: undefined,
+    avatar: '',
+    role: '',
+    lists: [],
+  };
+
+  const [user, setUser] = useState<User>(defaultUser);
+  const [authLoading, setAuthLoading] = useState(true);
+  const toast = useToast()
+
+  const fetchUserData = async () => {
+    try {
+      const { data } = await api.get('/users/me');
+      console.log(data)
+      setUser(data.user); 
+    } catch (err) {
+      setUser(defaultUser);
+      console.log(err)
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      const res = await axios.get('http://localhost:3000/api/v1/users/logout', {
+        withCredentials: true
+      })
+
+      if (res.data.status === 'success') {
+        setUser(defaultUser)
+        toast.success('You\'re logged out!')
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+
+  useEffect(() => {
+    fetchUserData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{user, authLoading, logout, fetchUserData}}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
