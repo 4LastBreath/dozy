@@ -18,7 +18,6 @@ export function ThemeProdiver({children} : PropsWithChildren) {
   }
 
   useEffect(() => {
-    console.log(theme)
     setLocalStorageItem(theme)
     document.documentElement.setAttribute('data-theme', theme)
   }, [theme, setLocalStorageItem])

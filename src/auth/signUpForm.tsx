@@ -57,6 +57,8 @@ const SignUpForm = () => {
     email: z.string().trim().email({message: 'Invalid email adress'}),
     password: z.string().min(8, {
       message: 'Password must be at least 8 characters'
+    }).max(40, {
+      message: 'Password must be less than 40 characters'
     }),
     passwordConfirm: z.string()
   }).refine((data) => data.password === data.passwordConfirm, {

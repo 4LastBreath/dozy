@@ -1,8 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
+import ProtectedRoute from "./protect";
+import RedirectIfLogged from "./redirect";
 import Home from "../pages/home";
 import SignUp from "@/pages/signup";
 import Login from "@/pages/login";
 import MyAccount from "@/pages/myAccount";
+import Loading from "@/pages/loading";
+import Taskboard from "@/pages/taskboard";
 
 export const router = createBrowserRouter([
   {
@@ -10,15 +14,34 @@ export const router = createBrowserRouter([
     element: <Home />
   },
   {
-    path: 'signup',
-    element: <SignUp />
+    path: '/loading',
+    element: <Loading />
   },
   {
-    path: 'login',
-    element: <Login />
+    path: '/taskboard',
+    element: <Taskboard />
   },
   {
-    path: 'myAccount',
-    element: <MyAccount />
+    element: <RedirectIfLogged />,
+    children: [
+      {
+        path: 'signup',
+        element: <SignUp />
+      },
+      {
+        path: 'login',
+        element: <Login />
+      },
+    ]
+  },
+  {
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: 'myAccount',
+        element: <MyAccount />
+      }
+    ]
   }
+
 ])

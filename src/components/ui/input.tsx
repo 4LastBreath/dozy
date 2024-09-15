@@ -12,7 +12,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const inputPassword = type === 'password'
     const [showPassword, setShowPassword] = useState(false)
 
-    const eyeClass = 'absolute right-2 top-[50%] translate-y-[-50%] cursor-pointer'
+    const eyeClass = 'absolute right-2 top-[50%] translate-y-[-50%] cursor-pointer text-neutral-900'
     
 
     return (

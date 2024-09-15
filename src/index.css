@@ -37,6 +37,10 @@
     --radius: 0.5rem;
   }
 
+  body {
+    border-color: hsl(14, 79%, 51%);
+  }
+
   html[data-theme='dark'] {
     /* shadcn/ui */
     --background: 0 0% 16%;
@@ -46,8 +50,9 @@
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 4%;
     --popover-foreground: 0 0% 98%;
-    --primary: 14 95% 55%;
+    --primary: 14 79% 51%;
     --primary-foreground: 0 0% 100%;
+    --primary-hover: 14 79% 60%;
     --secondary: 0 0% 88%;
     --secondary-foreground: 0 0% 8%;
     --secondary-hover: 0 0% 92%;

@@ -3,16 +3,7 @@ import { AuthContext } from "./authContext";
 import { useToast } from "../toasts/toastContext";
 import axios from "axios";
 import api from "@/api";
-
-export type User = {
-  _id: string,
-  email: string,
-  username: string,
-  active: boolean | undefined,
-  avatar: string,
-  role: string,
-  lists: string[],
-}
+import { User } from "@/types";
 
 
 export const AuthProdiver = ({children}: PropsWithChildren) => {
