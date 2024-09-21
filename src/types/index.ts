@@ -7,7 +7,7 @@ export type User = {
   active: boolean | undefined,
   avatar: string,
   role: string,
-  lists: string[],
+  lists: List[],
 }
 
 
@@ -22,7 +22,7 @@ export type Task = {
   _id: string,
   name: string,
   description: string,
-  createdAt: Date,
+  createdAt: number,
   status: Status,
   listId: string,
 }

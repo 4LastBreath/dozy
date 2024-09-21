@@ -17,7 +17,7 @@ const Header = () => {
   }
 
   return (
-<header className='fixed top-0 left-0 h-header w-full flex items-center justify-between px-6 py-2 bg-background z-50'>
+<header className='h-header w-full flex items-center justify-between px-6 py-2 bg-background'>
     
     <Link to='/'>
       <LogoType />

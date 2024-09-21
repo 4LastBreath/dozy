@@ -10,12 +10,12 @@ interface DroppableColumnProps {
   title: string
 }
 
-const DroppableColumn = ({id, tasks, title} : DroppableColumnProps) => {
+const DroppableColumn = ({id, tasks, title } : DroppableColumnProps) => {
 
   const overColor = {
-    todo: 'bg-red-600/15',
-    inProgress: 'bg-yellow-600/15',
-    done: 'bg-green-600/15'
+    todo: 'bg-red-600/10',
+    inProgress: 'bg-yellow-600/10',
+    done: 'bg-green-600/10'
   }
 
   const columnTitleVariants = cva(
@@ -32,7 +32,7 @@ const DroppableColumn = ({id, tasks, title} : DroppableColumnProps) => {
   )
 
   return (
-<div className={`h-full w-[20rem] max-h-[700px] rounded-lg border shadow-xl`}>
+<div className={`h-full flex flex-col w-full max-w-[22rem] rounded-lg border shadow-xl`}>
     <h2 className={cn(columnTitleVariants({id}))}>{title}</h2>
 
     <Droppable droppableId={id}>
@@ -41,12 +41,13 @@ const DroppableColumn = ({id, tasks, title} : DroppableColumnProps) => {
         <div
           ref={provided.innerRef}
           {...provided.droppableProps}
-          className={`h-full max-h-[calc(100%-40px)] overflow-y-auto overflow-x-hidden w-full rounded-b-lg flex flex-col py-2 px-2 ${snapshot.isDraggingOver ? overColor[id] : 'bg-surface'}`}
+          className={`h-full max-h-full flex-1 overflow-y-auto overflow-x-hidden w-full rounded-b-lg flex flex-col py-2 px-2 ${snapshot.isDraggingOver ? overColor[id] : 'bg-surface'}`}
         >
 
-            {tasks.map((task, i) => (
-              <DraggableTask task={task} key={task._id} taskIndex={i}/>
-            ))}
+            {tasks.map((task, i) => {
+              if (!task) return
+              return <DraggableTask task={task} key={task._id} taskIndex={i}/>
+          })}
 
             {provided.placeholder}
 

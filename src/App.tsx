@@ -11,7 +11,7 @@ function App() {
 <ThemeProdiver>
   <ToastProvider>
     <AuthProdiver>
-      <RouterProvider router={router}></RouterProvider>
+        <RouterProvider router={router}></RouterProvider>
     </AuthProdiver>
   </ToastProvider>
 </ThemeProdiver>

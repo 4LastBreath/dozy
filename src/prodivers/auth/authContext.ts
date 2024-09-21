@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { User } from "./authProvider";
+import { User } from "@/types";
 
 type authContextValue = {
   user: User,
