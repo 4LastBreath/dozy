@@ -19,11 +19,14 @@ import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTaskBoard } from "@/prodivers/taskboard/taskboardContext";
+import { useAuth } from "@/prodivers/auth/authContext";
+import { Task } from "@/types";
 
 const AddTaskButton = () => {
 
   const { createTaskApi } = useTaskBoardApi()
-  const { createTask, activeListId } = useTaskBoard()
+  const { createTask, activeListId, isTaskLimitReached } = useTaskBoard()
+  const { isGuest } = useAuth()
 
   const [open, setOpen] = useState(false)
 
@@ -44,16 +47,29 @@ const AddTaskButton = () => {
 
   const addTask:SubmitHandler<FormFields> = async (values: FormFields) => {
 
-    const res = await createTaskApi(activeListId, {
-      name: values.name, 
-      description: values.description
-    })
+    if (!isGuest) {
+      const res = await createTaskApi(activeListId, {
+        name: values.name, 
+        description: values.description
+      })
 
-    if (!res) return
+      if (!res) return
 
-    const newTask = res.data.task
+      const newTask = res.data.task
+      createTask(newTask)
+    }
 
-    createTask(newTask)
+    if (isGuest) {
+      const newTask: Task = {
+        _id: Date.now().toString(),
+        name: values.name,
+        description: values.description,
+        status: 'todo',
+        createdAt: Number(new Date(Date.now())),
+        listId: '1'
+      }
+      createTask(newTask)
+    }
 
     reset()
     setOpen(false)
@@ -70,7 +86,10 @@ const AddTaskButton = () => {
   return (
 <Dialog open={open} onOpenChange={setOpen}>
     <DialogTrigger asChild>
-      <Button><Plus className="mr-2"/>Add Task</Button>
+      <Button disabled={isTaskLimitReached} aria-label="add task">
+        <Plus className="md:mr-2"/>
+        <p className={`${isGuest ? 'block' : 'hidden'} md:block`}>Add Task</p>
+      </Button>
     </DialogTrigger>
 
     <DialogContent>

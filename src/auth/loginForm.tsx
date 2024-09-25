@@ -93,7 +93,12 @@ const LoginForm = () => {
               <FormItem>
                 <FormLabel>{el.label}</FormLabel>
                 <FormControl>
-                  <Input placeholder={el.placeholder} {...field} type={el.type}/>
+                  <Input 
+                    placeholder={el.placeholder} 
+                    type={el.type} 
+                    autoComplete={el.name === 'password' ? 'current-password' : 'on'}
+                    {...field} 
+                  />
                 </FormControl>
                 <FormMessage />
             </FormItem>

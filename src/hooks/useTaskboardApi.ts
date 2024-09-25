@@ -1,12 +1,16 @@
 import api from "@/api"
 import { useToast } from "@/prodivers/toasts/toastContext"
 import { Status } from "@/types"
+import { useAuth } from "@/prodivers/auth/authContext"
 
 export const useTaskBoardApi = () => {
 
   const toast = useToast()
+  const { isGuest } = useAuth()
 
   async function createTaskApi(listId:string, {name, description}: {name: string, description?: string}) {
+    if (isGuest) return
+
     try {
       const task = await api.post('/tasks', {
         name,
@@ -22,6 +26,7 @@ export const useTaskBoardApi = () => {
   }
 
   async function deleteTaskApi(taskId:string) {
+    if (isGuest) return
     try {
       
       await api.delete(`/tasks/${taskId}`)
@@ -33,6 +38,7 @@ export const useTaskBoardApi = () => {
   }
 
   async function updateTaskApi(taskId:string, {name, description, status}: {name?: string, description?: string, status?: Status}) {
+    if (isGuest) return
     try {
 
       await api.patch(`/tasks/${taskId}`, {
@@ -48,6 +54,7 @@ export const useTaskBoardApi = () => {
   }
 
   async function createListApi(name: string) {
+    if (isGuest) return
     try {
       const res = await api.post('/lists', {name})
       return res
@@ -57,7 +64,7 @@ export const useTaskBoardApi = () => {
   }
 
   async function getListApi(listId: string) {
-
+    if (isGuest) return
     try {
       const res = await api.get(`/lists/${listId}`)
       return res
@@ -68,7 +75,7 @@ export const useTaskBoardApi = () => {
   }
 
   async function deleteListApi(listId: string) {
-
+    if (isGuest) return
     try {
       const res = await api.delete(`/lists/${listId}`)
 

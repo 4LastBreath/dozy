@@ -5,6 +5,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { Status } from '@/types';
+import { cva } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
 
 
 interface TaksButtonsProps {
@@ -62,6 +65,38 @@ export const DeleteCancelButton = ({isEditing, cancelEdit, taskName, deleteTask,
       </TooltipContent>
     </Tooltip>
   </TooltipProvider>
+  )
+}
+
+interface MoveToButtonProps {
+  moveTo: (status: Status) => void,
+  status: Status,
+  taskName: string
+}
+
+export const MoveToButton = ({ status, moveTo, taskName }: MoveToButtonProps) => {
+
+  const bgVariants = cva(
+    'w-5 h-5 rounded-full',
+    {
+      variants: {
+        status: {
+          todo: 'bg-red-600 dark:bg-[#eb5656]',
+          inProgress: 'bg-yellow-600',
+          done: 'bg-green-500'
+        }
+      }
+    }
+  )
+
+  return (
+    <button
+      className='py-4 px-[0.35rem] hover:brightness-110'
+      onClick={() => moveTo(status)}
+      aria-label={`move task ${taskName} to ${status}`}
+    >
+      <div className={cn(bgVariants({status}))}/>
+    </button>
   )
 }
 

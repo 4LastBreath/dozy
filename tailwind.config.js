@@ -23,10 +23,10 @@ export default {
         line: {
           '0%': { width: '100%' },
           '100%': { width: '0%' },
-        }
+        },
       },
 			animation: {
-				'toast-line': 'line 5s linear'
+				'toast-line': 'line 5s linear',
 			},
   		colors: {
   			background: 'hsl(var(--background))',

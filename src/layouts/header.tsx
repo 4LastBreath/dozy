@@ -4,11 +4,18 @@ import LogoType from '@/components/logo/logoType';
 import ThemeSwitch from '@/components/themeSwitch';
 import { useAuth } from '@/prodivers/auth/authContext';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import SkeletonButton from '@/components/ui/skeletonButton';
+import Nav from '@/components/nav';
+import { Menu } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 
+interface HeaderProps {
+  setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-const Header = () => {
+const Header = ({setIsDrawerOpen} : HeaderProps) => {
 
-  const { logout, user } = useAuth()
+  const { logout, user, authLoading } = useAuth()
   const navigate = useNavigate()
 
   const logoutUser = () => {
@@ -23,26 +30,62 @@ const Header = () => {
       <LogoType />
     </Link>
 
-    <div className='flex gap-2 items-center'>
+    <Nav />
 
-      {user._id &&
-        <>
-          <Button variant='secondary' onClick={() => logoutUser()}>Log out</Button>
-          <Link className={`${buttonVariants({ variant: "default" })} gap-2`} to={'/myAccount'}>
+    
+      <Button 
+        variant='ghost' 
+        className='flex items-start justify-center lg:hidden h-fit w-fit p-2'
+        onClick={() => setIsDrawerOpen(true)}
+      >
+        {authLoading ? 
+          <Skeleton className='h-[40px] w-[40px]'/> 
+          : 
+          (user._id ?
             <Avatar>
               <AvatarImage src={user.avatar} />
-              <AvatarFallback>Avatar</AvatarFallback>
-            </Avatar>
-            <p className='flex items-center'>{user?.username}</p>
-          </Link>
-        </>
+            </Avatar> 
+            : 
+            <Menu size={30}/>
+          )
+        }
+      </Button>
+    
+
+    <div className='hidden gap-2 items-center lg:flex'>
+
+      {user._id && 
+          (authLoading ? 
+            <>
+              <SkeletonButton /> 
+              <SkeletonButton />
+            </>
+            : 
+            <>
+              <Button variant='secondary' onClick={logoutUser}>Log out</Button>
+              <Link className={`${buttonVariants({ variant: "default" })} gap-2`} to={'/myAccount'}>
+                <Avatar>
+                  <AvatarImage src={user.avatar} />
+                  <AvatarFallback>Avatar</AvatarFallback>
+                </Avatar>
+                <p className='flex items-center'>{user?.username}</p>
+              </Link>
+            </>
+          )
       }
 
-      {!user._id &&
-        <>
-          <Link to='/signup' className={buttonVariants({ variant: "default" })}>Sign up</Link>
-          <Link to='/login' className={buttonVariants({ variant: "secondary" })}>Log in</Link>
-        </>
+      {!user._id && 
+        (authLoading ? 
+          <>
+            <SkeletonButton /> 
+            <SkeletonButton />
+          </>
+          : 
+          <>
+            <Link to='/signup' className={buttonVariants({ variant: "default" })}>Sign up</Link>
+            <Link to='/login' className={buttonVariants({ variant: "secondary" })}>Log in</Link>
+          </>
+        )
       }
 
       <div className='h-[40px] w-[2px] ml-2 bg-primary opacity-20'/>

@@ -21,7 +21,7 @@ import { useTaskBoard } from '@/prodivers/taskboard/taskboardContext';
 const NewListButton = () => {
 
   const { createListApi } = useTaskBoardApi()
-  const { createList } = useTaskBoard()
+  const { createList, isListLimitReached } = useTaskBoard()
 
   const [open, setOpen] = useState(false)
 
@@ -62,7 +62,7 @@ const NewListButton = () => {
   return (
 <Dialog open={open} onOpenChange={setOpen}>
     <DialogTrigger asChild>
-      <Button variant='secondary'>New List</Button>
+      <Button variant='secondary' disabled={isListLimitReached}>New List</Button>
     </DialogTrigger>
 
     <DialogContent>

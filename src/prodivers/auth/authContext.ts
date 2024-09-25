@@ -6,6 +6,7 @@ type authContextValue = {
   authLoading: boolean,
   logout: () => void,
   fetchUserData: () => void,
+  isGuest: boolean
 }
 
 

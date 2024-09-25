@@ -10,10 +10,22 @@ import AddTaskButton from "./addTaskButton";
 import DeleteListButton from "./deleteListButton";
 import NewListButton from "./newListButton";
 import { useTaskBoard } from "@/prodivers/taskboard/taskboardContext";
+import { useAuth } from "@/prodivers/auth/authContext";
+import SkeletonButton from "../ui/skeletonButton";
+import { useCurrentWidth } from "@/hooks/useScreenSize";
+import { FilePen } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Button } from "../ui/button";
 
 const TaskBoardHeader = () => {
 
   const { lists, isListsEmpty, getTasksOfList, activeListId } = useTaskBoard()
+  const { isGuest, authLoading } = useAuth()
+  const { md } = useCurrentWidth()
 
   return (
 <div className='w-full flex justify-between max-w-[1130px] mx-auto'>
@@ -36,16 +48,33 @@ const TaskBoardHeader = () => {
         </Select>
       }
 
-      {!isListsEmpty && <AddTaskButton />}
+      {(!isListsEmpty || isGuest) && <AddTaskButton />}
     </div>
 
-    
-    <div className='flex gap-2'>
-      
-      {!isListsEmpty && <DeleteListButton/>}
+    {md ?
+      <div className='flex gap-2'>
+        {!isListsEmpty && <DeleteListButton/>}
+        {!isGuest && (authLoading ? <SkeletonButton /> : <NewListButton />)}
+      </div>
+      :
+      !isListsEmpty ? 
+      (<Popover>
+          <PopoverTrigger asChild>
+              <Button variant='secondary' className='px-3 text-neutral-600' aria-label='list settings'>
+                <FilePen/>
+              </Button>
+          </PopoverTrigger>
 
-      <NewListButton />
-    </div>
+          <PopoverContent className="flex flex-col gap-2 bg-surface">
+            {!isListsEmpty &&
+                <DeleteListButton/>
+            }
+            {!isGuest && (authLoading ? <SkeletonButton /> : <NewListButton />)}
+          </PopoverContent>
+
+        </Popover>
+      ) : (!isGuest && (authLoading ? <SkeletonButton /> : <NewListButton />))
+    }
 
 </div>
   );

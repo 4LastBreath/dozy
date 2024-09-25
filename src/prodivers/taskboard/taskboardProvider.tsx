@@ -4,7 +4,6 @@ import { TaskBoardState, Task, List, Status } from '@/types';
 import { useTaskBoardApi } from '@/hooks/useTaskboardApi';
 
 
-
 const TaskboardProvider = ({children}: PropsWithChildren) => {
 
   const { getListApi } = useTaskBoardApi()
@@ -37,6 +36,8 @@ const TaskboardProvider = ({children}: PropsWithChildren) => {
   const [isTBLoading, setIsTBLoading] = useState(false)
 
   const isListsEmpty = lists.length === 0
+  const isTaskLimitReached = Object.keys(state.tasks).length >= 50
+  const isListLimitReached = lists.length >= 10
 
   const tasksArrayToObject = (tasks:Task[]): {[key: string]: Task} => {
     return tasks.reduce((acc, task) => {
@@ -62,7 +63,9 @@ const TaskboardProvider = ({children}: PropsWithChildren) => {
       const updatedColumns = { ...initialState.columns };
 
       tasks.forEach((task: Task) => {
-        updatedColumns[task.status].taskIds.push(task._id);
+        if (!updatedColumns[task.status].taskIds.includes(task._id)) {
+          updatedColumns[task.status].taskIds.push(task._id);
+        }
       });
 
       const newTasksObj = tasksArrayToObject(tasks)
@@ -170,7 +173,6 @@ const TaskboardProvider = ({children}: PropsWithChildren) => {
 
   }
 
-
   return (
 <TaskboardContext.Provider value={{
   state,
@@ -186,6 +188,8 @@ const TaskboardProvider = ({children}: PropsWithChildren) => {
   lists,
   setLists,
   activeListId,
+  isTaskLimitReached,
+  isListLimitReached
 }}>
       
   {children}

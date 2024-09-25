@@ -3,12 +3,18 @@ import { Status } from '@/types';
 import { useTaskBoardApi } from '@/hooks/useTaskboardApi';
 import DroppableColumn from './droppableColumn';
 import { useTaskBoard } from '@/prodivers/taskboard/taskboardContext';
+import { useState } from 'react';
+import { useCurrentWidth } from '@/hooks/useScreenSize';
+import MobileTabs from '../taskboard/mobileTabs';
 
 
 const DndBoard = () => {
 
   const { updateTaskApi } = useTaskBoardApi()
   const { state, setState } = useTaskBoard()
+  const { md } = useCurrentWidth()
+
+  const [activeColumn, setActiveColumn] = useState<Status>('todo')
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result
@@ -82,20 +88,43 @@ const DndBoard = () => {
     setState(newState)
   };
 
+  const filteredColumn = state.columnOrder.filter(column => column === activeColumn)
+
   return (
 <DragDropContext onDragEnd={onDragEnd}>
 
-    {state.columnOrder.map(columnId => {
-      const column = state.columns[columnId]
-      const tasks = column.taskIds.map(taskId => state.tasks[taskId])
+    {md ? 
+        <div className='w-full flex gap-4 h-[calc(100vh-theme(height.header)-8rem-6rem)] justify-center'>
+        {state.columnOrder.map(columnId => {
+          const column = state.columns[columnId]
+          const tasks = column.taskIds.map(taskId => state.tasks[taskId])
+  
+          return <DroppableColumn
+                    key={columnId} 
+                    title={column.title}
+                    id={column.id}
+                    tasks={tasks}
+                  />
+        })}
+      </div> :     
+      <div className='flex w-full gap-4 h-[calc(100vh-theme(height.header)-9rem-6rem)] justify-center'>
+        {filteredColumn.map(columnId => {
+          const column = state.columns[columnId]
+          const tasks = column.taskIds.map(taskId => state.tasks[taskId])
 
-      return <DroppableColumn
-                key={columnId} 
-                title={column.title}
-                id={column.id}
-                tasks={tasks}
-               />
-    })}
+          return <DroppableColumn
+                    key={columnId} 
+                    title={column.title}
+                    id={column.id}
+                    tasks={tasks}
+                  />
+        })}
+      </div>
+    }
+
+    
+
+    {!md && <MobileTabs setActiveColumn={setActiveColumn} activeColumn={activeColumn}/>}
 
 </DragDropContext>
   );

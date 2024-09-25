@@ -3,6 +3,8 @@ import { Task, Status } from '@/types';
 import { cva } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 import { Droppable } from '@hello-pangea/dnd';
+import SkeletonTask from '../ui/skeletonTask';
+import { useTaskBoard } from '@/prodivers/taskboard/taskboardContext';
 
 interface DroppableColumnProps {
   id: Status,
@@ -11,6 +13,8 @@ interface DroppableColumnProps {
 }
 
 const DroppableColumn = ({id, tasks, title } : DroppableColumnProps) => {
+
+  const { isTBLoading } = useTaskBoard()
 
   const overColor = {
     todo: 'bg-red-600/10',
@@ -32,7 +36,7 @@ const DroppableColumn = ({id, tasks, title } : DroppableColumnProps) => {
   )
 
   return (
-<div className={`h-full flex flex-col w-full max-w-[22rem] rounded-lg border shadow-xl`}>
+<div className={`h-full flex flex-col w-full max-w-[34rem] rounded-lg border shadow-xl md:max-w-[23rem]`}>
     <h2 className={cn(columnTitleVariants({id}))}>{title}</h2>
 
     <Droppable droppableId={id}>
@@ -43,11 +47,14 @@ const DroppableColumn = ({id, tasks, title } : DroppableColumnProps) => {
           {...provided.droppableProps}
           className={`h-full max-h-full flex-1 overflow-y-auto overflow-x-hidden w-full rounded-b-lg flex flex-col py-2 px-2 ${snapshot.isDraggingOver ? overColor[id] : 'bg-surface'}`}
         >
-
-            {tasks.map((task, i) => {
+          {isTBLoading ? 
+            <SkeletonTask /> 
+            : 
+            tasks.map((task, i) => {
               if (!task) return
               return <DraggableTask task={task} key={task._id} taskIndex={i}/>
-          })}
+            })
+          }
 
             {provided.placeholder}
 

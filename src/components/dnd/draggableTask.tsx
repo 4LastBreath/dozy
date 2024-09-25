@@ -1,5 +1,5 @@
 import React from 'react';
-import { Task } from '@/types';
+import { Status, Task } from '@/types';
 import { Draggable } from '@hello-pangea/dnd';
 import { cva } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { useTaskBoardApi } from '@/hooks/useTaskboardApi';
-import { DeleteCancelButton, EditValidButton } from '../taskboard/taskButtons';
+import { DeleteCancelButton, EditValidButton, MoveToButton } from '../taskboard/taskButtons';
 import { MAX_TASK_NAME_CH, MAX_TASK_DESCRIPTION_CH } from '@/utils/maxLength';
 import { useTaskBoard } from '@/prodivers/taskboard/taskboardContext';
 
@@ -20,15 +20,18 @@ interface DraggableTaskProps {
 const DraggableTask = ({ task, taskIndex } :  DraggableTaskProps) => {
 
   const { updateTaskApi, deleteTaskApi } = useTaskBoardApi()
-  const { updateTask, deleteTask } = useTaskBoard()
+  const { updateTask, deleteTask, state, setState } = useTaskBoard()
   const [isEditing, setIsEditing] = useState(false)
   const [taskName, setTaskName] = useState(task.name)
   const [taskNameError, setTaskNameError] = useState('')
   const [taskDescription, setTaskDescription] = useState(task.description)
 
   const status = task.status
+  const id = task._id
   const isoDate = task.createdAt;
   const date = new Date(isoDate);
+
+  const filteredStatus = state.columnOrder.filter(col => col !== status)
 
   const options: Intl.DateTimeFormatOptions = {
     dateStyle: 'short',
@@ -90,6 +93,40 @@ const DraggableTask = ({ task, taskIndex } :  DraggableTaskProps) => {
     deleteTask(id, status)
   }
 
+  function moveTo(newStatus: Status) {
+    updateTaskApi(id, {status: newStatus})
+
+    const startTaskIds = Array.from(state.columns[status].taskIds);
+    startTaskIds.splice(taskIndex, 1);
+
+    const finishTaskIds = Array.from(state.columns[newStatus].taskIds);
+    finishTaskIds.push(id);
+
+    const newState = {
+      ...state,
+      columns: {
+        ...state.columns,
+        [status]: {
+          ...state.columns[status],
+          taskIds: startTaskIds
+        },
+        [newStatus]: {
+          ...state.columns[newStatus],
+          taskIds: finishTaskIds
+        }
+      },
+      tasks: {
+        ...state.tasks,
+        [id]: {
+          ...state.tasks[id],
+          status: newStatus
+        }
+      }
+    }
+
+    setState(newState)
+  }
+
   return (
     <Draggable
       draggableId={task._id}
@@ -100,11 +137,11 @@ const DraggableTask = ({ task, taskIndex } :  DraggableTaskProps) => {
           ref={provided.innerRef}
           {...provided.dragHandleProps}
           {...provided.draggableProps}
-          className={`w-full flex rounded shadow-md z-50 mb-2 border border-neutral-300 dark:border-neutral-700 overflow-hidden shrink-0
+          className={`w-full flex rounded shadow-md z-10 mb-2 border border-neutral-300 dark:border-neutral-700 overflow-hidden shrink-0
             ${snapshot.isDragging ? draggingColors[status] : 'bg-neutral-50 dark:bg-neutral-600'}`}
           >
 
-          <div className='flex flex-col flex-1 gap-2 p-3'>
+          <div className='flex flex-col flex-1 gap-2 px-4 py-3'>
 
             {isEditing ?
               <form onSubmit={editTaskSubmit} className='flex flex-col gap-3'>
@@ -129,8 +166,16 @@ const DraggableTask = ({ task, taskIndex } :  DraggableTaskProps) => {
                 {task.description && <p className=' text-neutral-600 dark:text-neutral-300 font-medium'>{taskDescription}</p>}
               </>
             }
+            
+            <div className='w-full flex items-center justify-between'>
+              <p className='opacity-60 text-sm mt-2'>{formattedDate}</p>
 
-            <p className='opacity-60 text-sm mt-2'>{formattedDate}</p>
+              <div className='flex md:hidden'>
+                {filteredStatus.map(status => (
+                  <MoveToButton moveTo={moveTo} status={status} taskName={task.name} key={status}/>
+                ))}
+              </div>
+            </div>
           </div>
 
           <div className={`w-8 h-full ${snapshot.isDragging && 'opacity-60'}`}>

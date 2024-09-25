@@ -91,7 +91,12 @@ const UpdatePasswordForm = () => {
                 <FormItem>
                   <FormLabel>{el.label}</FormLabel>
                   <FormControl>
-                    <Input placeholder={el.placeholder} {...field} type={el.type}/>
+                    <Input 
+                      placeholder={el.placeholder} 
+                      type={el.type}
+                      autoComplete={el.name === 'passwordCurrent' ? 'current-password' : 'new-password'}
+                      {...field} 
+                    />
                   </FormControl>
                   <FormMessage />
               </FormItem>
@@ -99,7 +104,7 @@ const UpdatePasswordForm = () => {
           ))}
         
           <Button type='submit' className='w-full' isLoading={isSubmitting} disabled={isSubmitting || !isValid}>Change Password</Button>
-    </form>
+  </form>
 </Form>
   );
 };

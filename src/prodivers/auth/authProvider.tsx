@@ -20,14 +20,19 @@ export const AuthProdiver = ({children}: PropsWithChildren) => {
 
   const [user, setUser] = useState<User>(defaultUser);
   const [authLoading, setAuthLoading] = useState(true);
+  const [isGuest, setIsGuest] = useState(false)
+
   const toast = useToast()
 
   const fetchUserData = async () => {
     try {
+      setIsGuest(false)
       const { data } = await api.get('/users/me');
       console.log(data)
+
       setUser(data.user); 
     } catch (err) {
+      setIsGuest(true)
       setUser(defaultUser);
       console.log(err)
     } finally {
@@ -43,6 +48,7 @@ export const AuthProdiver = ({children}: PropsWithChildren) => {
 
       if (res.data.status === 'success') {
         setUser(defaultUser)
+        setIsGuest(true)
         toast.success('You\'re logged out!')
       }
     } catch (err) {
@@ -50,14 +56,13 @@ export const AuthProdiver = ({children}: PropsWithChildren) => {
     }
   }
 
-
   useEffect(() => {
     fetchUserData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <AuthContext.Provider value={{user, authLoading, logout, fetchUserData}}>
+    <AuthContext.Provider value={{user, authLoading, logout, fetchUserData, isGuest}}>
       {children}
     </AuthContext.Provider>
   )

@@ -15,6 +15,8 @@ type TaskboardContextValues = {
   getTasksOfList: (listId: string) => void
   isTBLoading: boolean
   activeListId: string,
+  isTaskLimitReached: boolean
+  isListLimitReached: boolean
 }
 
 export const TaskboardContext = createContext<TaskboardContextValues | null>(null)
