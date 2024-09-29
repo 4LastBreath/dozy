@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Drawer,
   DrawerClose,
@@ -15,6 +15,7 @@ import { useAuth } from '@/prodivers/auth/authContext';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import ThemeSwitch from '@/components/themeSwitch';
 import { Link, useNavigate } from 'react-router-dom';
+import { useCurrentWidth } from '@/hooks/useScreenSize';
 
 interface DrawerDisplayProps {
   isOpen: boolean,
@@ -24,6 +25,7 @@ interface DrawerDisplayProps {
 const DrawerDisplay = ({isOpen, setIsOpen} : DrawerDisplayProps) => {
 
   const { user, logout } = useAuth()
+  const { lg } = useCurrentWidth()
 
   const navigate = useNavigate()
 
@@ -31,6 +33,10 @@ const DrawerDisplay = ({isOpen, setIsOpen} : DrawerDisplayProps) => {
     logout()
     navigate('/')
   }
+
+  useEffect(() => {
+    if (lg) setIsOpen(false)
+  }, [lg, setIsOpen])
 
   return (
 <Drawer open={isOpen} onOpenChange={setIsOpen} direction='left'>

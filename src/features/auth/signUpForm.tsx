@@ -13,9 +13,10 @@ import {
 } from "@/components/ui/form"
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/prodivers/toasts/toastContext';
-import { MAX_USERNAME_CH } from '@/utils/maxLength';
+import { MAX_USERNAME_CH, MIN_PASSWORD_CH, MAX_PASSWORD_CH } from '@/utils/maxLength';
 import { useAuth } from '@/prodivers/auth/authContext';
 import { useNavigate } from 'react-router-dom';
+import ReCAPTCHA from "react-google-recaptcha";
 
 const SignUpForm = () => {
 
@@ -55,15 +56,16 @@ const SignUpForm = () => {
       message: 'Username must be at least 3 characters'
     }).max(MAX_USERNAME_CH),
     email: z.string().trim().email({message: 'Invalid email adress'}),
-    password: z.string().min(8, {
-      message: 'Password must be at least 8 characters'
-    }).max(40, {
-      message: 'Password must be less than 40 characters'
+    recaptcha: z.string({ message: 'reCAPTCHA is required' }),
+    password: z.string().min(MIN_PASSWORD_CH, {
+      message: `Password must be at least ${MIN_PASSWORD_CH} characters`
+    }).max(MAX_PASSWORD_CH, {
+      message: `Password must be less than ${MAX_PASSWORD_CH} characters`
     }),
     passwordConfirm: z.string()
-  }).refine((data) => data.password === data.passwordConfirm, {
-    message: "Passwords don't match",
-    path: ["passwordConfirm"], // path of error
+    }).refine((data) => data.password === data.passwordConfirm, {
+      message: "Passwords don't match",
+      path: ["passwordConfirm"], // path of error
   });
 
   type FormFields = z.infer<typeof formSchema>
@@ -74,19 +76,26 @@ const SignUpForm = () => {
       username: '',
       email: '',
       password: '',
-      passwordConfirm: ''
+      passwordConfirm: '',
+      recaptcha: '',
     },
   })
 
-  const { formState: { isSubmitting } } = form;
+  const { formState: { isSubmitting }, setError, setValue } = form;
+
+  const onRecaptchaChange = (token: string | null) => {
+    setValue('recaptcha', token || '');
+  };
 
   async function onSubmit (values: FormFields) {
+    console.log(values)
     try {
       const res = await axios.post('http://localhost:3000/api/v1/users/signup', {
         username: values.username,
         email: values.email,
         password: values.password,
-        passwordConfirm: values.passwordConfirm
+        passwordConfirm: values.passwordConfirm,
+        recaptcha: values.recaptcha
       }, {
         withCredentials: true
       })
@@ -101,8 +110,19 @@ const SignUpForm = () => {
       }
 
     } catch (err) {
-      console.error(err)
-      toast.error('Failed to create the account. Please try again later.')
+      if (axios.isAxiosError(err) && err.response?.data.error.code === 11000) {
+        console.log(err.response)
+        return setError('root', {
+          message: 'This email is already taken'
+        });
+      }
+
+      if (axios.isAxiosError(err) && err.response?.data?.message) {
+        return setError('root', {
+          message: err.response.data.message
+        });
+      }
+     return toast.error('Something went wrong, please try again later');
     }
   }
 
@@ -130,6 +150,17 @@ const SignUpForm = () => {
             </FormItem>
           )}/>
         ))}
+
+        <div className='flex flex-col gap-1'>
+            <ReCAPTCHA
+              sitekey='6LeAbVIqAAAAAP1MIvmmlYdv8vFnCAvxOvg98AP8'
+              onChange={onRecaptchaChange}
+            />
+          {form.formState.errors.recaptcha && <FormMessage>{form.formState.errors.recaptcha.message}</FormMessage>}
+        </div>
+
+        {form.formState.errors.root && <FormMessage>{form.formState.errors.root.message}</FormMessage>}
+      
       
         <Button type='submit' className='w-full' isLoading={isSubmitting} disabled={isSubmitting}>Sign up</Button>
       </div>

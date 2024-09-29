@@ -172,7 +172,7 @@ const DraggableTask = ({ task, taskIndex } :  DraggableTaskProps) => {
 
               <div className='flex md:hidden'>
                 {filteredStatus.map(status => (
-                  <MoveToButton moveTo={moveTo} status={status} taskName={task.name} key={status}/>
+                  <MoveToButton moveTo={moveTo} newStatus={status} taskName={task.name} key={status} taskStatus={task.status}/>
                 ))}
               </div>
             </div>

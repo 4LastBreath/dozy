@@ -8,6 +8,7 @@ import {
 import { Status } from '@/types';
 import { cva } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
+import { ArrowUp, ArrowDown } from 'lucide-react';
 
 
 interface TaksButtonsProps {
@@ -70,32 +71,45 @@ export const DeleteCancelButton = ({isEditing, cancelEdit, taskName, deleteTask,
 
 interface MoveToButtonProps {
   moveTo: (status: Status) => void,
-  status: Status,
+  taskStatus: Status,
+  newStatus: Status,
   taskName: string
 }
 
-export const MoveToButton = ({ status, moveTo, taskName }: MoveToButtonProps) => {
+export const MoveToButton = ({ newStatus, taskStatus, moveTo, taskName }: MoveToButtonProps) => {
 
   const bgVariants = cva(
-    'w-5 h-5 rounded-full',
+    'w-8 h-8 rounded-full flex items-center justify-center',
     {
       variants: {
-        status: {
+        newStatus: {
           todo: 'bg-red-600 dark:bg-[#eb5656]',
-          inProgress: 'bg-yellow-600',
+          inProgress: 'bg-yellow-500 dark:bg-yellow-600',
           done: 'bg-green-500'
         }
       }
     }
   )
 
+  const getArrow = () => {
+    if (taskStatus === 'todo' || (taskStatus === 'inProgress' && newStatus === 'done')) {
+      return <ArrowUp strokeWidth={3} opacity={0.8} color='white'/>;
+    }
+    if (taskStatus === 'done' || (taskStatus === 'inProgress' && newStatus === 'todo')) {
+      return <ArrowDown strokeWidth={3} opacity={0.8} color='white'/>;
+    }
+    return null;
+  };
+
   return (
     <button
-      className='py-4 px-[0.35rem] hover:brightness-110'
-      onClick={() => moveTo(status)}
-      aria-label={`move task ${taskName} to ${status}`}
+      className='py-2 px-[0.35rem] hover:brightness-110'
+      onClick={() => moveTo(newStatus)}
+      aria-label={`move task ${taskName} to ${newStatus}`}
     >
-      <div className={cn(bgVariants({status}))}/>
+      <div className={cn(bgVariants({newStatus}))}>
+        {getArrow()}
+      </div>
     </button>
   )
 }

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/prodivers/toasts/toastContext';
+import { MIN_PASSWORD_CH, MAX_PASSWORD_CH } from '@/utils/maxLength';
 
 const UpdatePasswordForm = () => {
 
@@ -35,10 +36,10 @@ const UpdatePasswordForm = () => {
 
   const formSchema = z.object({
     passwordCurrent: z.string().min(8).max(40),
-    password: z.string().min(8, {
-      message: 'New password must be at least 8 characters'
-    }).max(40, {
-      message: 'New password must be lass than 40 characters'
+    password: z.string().min(MIN_PASSWORD_CH, {
+      message: `Password must be at least ${MIN_PASSWORD_CH} characters`
+    }).max(MAX_PASSWORD_CH, {
+      message: `Password must be less than ${MAX_PASSWORD_CH} characters`
     }),
     passwordConfirm: z.string()
     }).refine((data) => data.password === data.passwordConfirm, {

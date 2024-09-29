@@ -1,5 +1,5 @@
-import UpdatePasswordForm from '@/auth/updatePasswordForm';
-import UpdateUserForm from '@/auth/updateUserForm';
+import UpdatePasswordForm from '@/features/auth/updatePasswordForm';
+import UpdateUserForm from '@/features/user/updateUserForm';
 import Layout from '@/layouts/layout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Title from '@/components/ui/title';
@@ -8,7 +8,6 @@ const MyAccount = () => {
   return (
   <Layout>
 
-      
       <Tabs defaultValue="account" className="w-full flex gap-6 relative max-lg:flex-col lg:pl-[16rem]">
           <TabsList className='justify-start flex-row w-full h-auto px-1 py-1 bg-neutral-200/70 dark:bg-neutral-900/25 rounded-lg lg:flex-col lg:w-[16rem] lg:py-6 lg:px-2 lg:absolute lg:left-0 lg:top-0'>
             <TabsTrigger className='w-full py-4' value="account">Account</TabsTrigger>
@@ -33,7 +32,6 @@ const MyAccount = () => {
             
           </div>
       </Tabs>
-
 
   </Layout>
   );

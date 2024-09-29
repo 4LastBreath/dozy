@@ -36,11 +36,7 @@
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
-
-  body {
-    border-color: hsl(14, 79%, 51%);
-  }
-
+  
   html[data-theme='dark'] {
     /* shadcn/ui */
     --background: 0 0% 16%;
@@ -89,3 +85,4 @@
     transition: background-color 0.1s ease;
   }
 }
+

@@ -13,77 +13,82 @@ import {
 } from "@/components/ui/form"
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/prodivers/toasts/toastContext';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/prodivers/auth/authContext';
+import { MIN_PASSWORD_CH, MAX_PASSWORD_CH } from '@/utils/maxLength';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const LoginForm = () => {
+const ResetPasswordForm = () => {
 
-  const { fetchUserData } = useAuth()
   const toast = useToast()
+  const { resetToken } = useParams()
   const navigate = useNavigate()
 
   const fields = [
     {
-      label: 'Email', 
-      name: 'email', 
+      label: 'New Password', 
+      name: 'password', 
       placeholder: 'mymail@example.com',
-      type: 'text'
+      type: 'password'
     },
     {
-      label: 'Password', 
-      name: 'password',
+      label: 'Confirm New Password', 
+      name: 'passwordConfirm',
       placeholder: '••••••••', 
       type: 'password'
     },
   ]
 
   const formSchema = z.object({
-    email: z.string().trim().email({message: 'Invalid email adress'}),
-    password: z.string(),
-  })
+    password: z.string().min(MIN_PASSWORD_CH, {
+      message: `Password must be at least ${MIN_PASSWORD_CH} characters`
+    }).max(MAX_PASSWORD_CH, {
+      message: `Password must be less than ${MAX_PASSWORD_CH} characters`
+    }),
+    passwordConfirm: z.string()
+    }).refine((data) => data.password === data.passwordConfirm, {
+      message: "Passwords don't match",
+      path: ["passwordConfirm"], // path of error
+  });
+ 
 
   type FormFields = z.infer<typeof formSchema>
 
   const form = useForm<FormFields>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
       password: '',
+      passwordConfirm: ''
     },
   })
 
-  const { formState: { isSubmitting } } = form;
+  const { formState: { isSubmitting }, setError } = form;
 
   async function onSubmit (values: FormFields) {
     try {
-      const res = await axios.post('http://localhost:3000/api/v1/users/login', {
-        email: values.email,
+      const res = await axios.patch(`http://localhost:3000/api/v1/users/resetPassword/${resetToken}`, {
         password: values.password,
-      }, {
-        withCredentials: true,
+        passwordConfirm: values.passwordConfirm,
       })
 
       if (res.data.status === 'success') {
-        toast.success('You\'re logged in!')
+        toast.success('Password updated with success!')
         form.reset()
         setTimeout(() => {
-          fetchUserData()
-          navigate('/')
+          navigate('/login')
         }, 500)
       }
-
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.data?.message) {
-          return toast.error(err.response.data.message);
-      }
-       return toast.error('Something went wrong, please try again later');
+        return setError('passwordConfirm', {message: err.response.data.message});
+    }
+     return toast.error('Something went wrong, please try again later');
     }
   }
 
   return (
- <Form {...form}>
-  <form onSubmit={form.handleSubmit(onSubmit)}>
-    <div className='flex flex-col gap-6'>
+<Form {...form}>
+    <form onSubmit={form.handleSubmit(onSubmit)}>
+      <div className='flex flex-col gap-6'>
+
       {fields.map((el) => (
           <FormField
             key={el.name}
@@ -104,12 +109,13 @@ const LoginForm = () => {
             </FormItem>
           )}/>
         ))}
-      
-        <Button type='submit' className='w-full' isLoading={isSubmitting} disabled={isSubmitting}>Log In</Button>
+
+        
+          <Button type='submit' className='w-full' isLoading={isSubmitting} disabled={isSubmitting}>Submit</Button>
       </div>
-  </form>
- </Form>
+    </form>
+</Form>
   );
 };
 
-export default LoginForm;
+export default ResetPasswordForm;

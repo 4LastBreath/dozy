@@ -28,7 +28,7 @@ const DroppableColumn = ({id, tasks, title } : DroppableColumnProps) => {
       variants: {
         id: {
           todo: 'bg-red-600',
-          inProgress: 'bg-yellow-600',
+          inProgress: 'bg-yellow-500 dark:bg-yellow-600',
           done: 'bg-green-600'
         }
       }

@@ -60,8 +60,8 @@ const TaskBoardHeader = () => {
       !isListsEmpty ? 
       (<Popover>
           <PopoverTrigger asChild>
-              <Button variant='secondary' className='px-3 text-neutral-600' aria-label='list settings'>
-                <FilePen/>
+              <Button variant='secondary' className='text-neutral-600 rounded-full p-0 h-10 w-10' aria-label='list settings'>
+                <FilePen />
               </Button>
           </PopoverTrigger>
 

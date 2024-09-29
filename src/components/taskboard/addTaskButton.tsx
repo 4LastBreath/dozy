@@ -21,12 +21,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTaskBoard } from "@/prodivers/taskboard/taskboardContext";
 import { useAuth } from "@/prodivers/auth/authContext";
 import { Task } from "@/types";
+import { useCurrentWidth } from "@/hooks/useScreenSize";
 
 const AddTaskButton = () => {
 
   const { createTaskApi } = useTaskBoardApi()
   const { createTask, activeListId, isTaskLimitReached } = useTaskBoard()
   const { isGuest } = useAuth()
+  const { md } = useCurrentWidth()
 
   const [open, setOpen] = useState(false)
 
@@ -86,7 +88,7 @@ const AddTaskButton = () => {
   return (
 <Dialog open={open} onOpenChange={setOpen}>
     <DialogTrigger asChild>
-      <Button disabled={isTaskLimitReached} aria-label="add task">
+      <Button disabled={isTaskLimitReached} aria-label="add task" className={`${!isGuest && !md ? 'rounded-full p-0 h-10 w-10' : ''}`}>
         <Plus className="md:mr-2"/>
         <p className={`${isGuest ? 'block' : 'hidden'} md:block`}>Add Task</p>
       </Button>
