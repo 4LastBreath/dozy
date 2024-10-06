@@ -3,8 +3,20 @@ import { Task, Status } from '@/types';
 import { cva } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 import { Droppable } from '@hello-pangea/dnd';
-import SkeletonTask from '../ui/skeletonTask';
+import SkeletonTask from '../../ui/skeletonTask';
 import { useTaskBoard } from '@/prodivers/taskboard/taskboardContext';
+import React from 'react';
+
+
+// Improve performance by avoiding rerender if the tasks list is the same
+const InnerList = React.memo(({ tasks } : { tasks: Task[] }) => {
+  return tasks.map((task, i) => {
+    if (!task) return null;
+    return <DraggableTask task={task} key={task._id} taskIndex={i} />;
+  });
+}, (prevProps, nextProps) => {
+  return prevProps.tasks === nextProps.tasks;
+});
 
 interface DroppableColumnProps {
   id: Status,
@@ -12,7 +24,7 @@ interface DroppableColumnProps {
   title: string
 }
 
-const DroppableColumn = ({id, tasks, title } : DroppableColumnProps) => {
+const DroppableColumn = ({ id, tasks, title } : DroppableColumnProps) => {
 
   const { isTBLoading } = useTaskBoard()
 
@@ -36,7 +48,7 @@ const DroppableColumn = ({id, tasks, title } : DroppableColumnProps) => {
   )
 
   return (
-<div className={`h-full flex flex-col w-full max-w-[34rem] rounded-lg border shadow-xl md:max-w-[23rem]`}>
+<div className={`h-full flex flex-col w-full min-w-[222px] max-w-[34rem] rounded-lg border shadow-xl md:max-w-[23rem] flex-1`}>
     <h2 className={cn(columnTitleVariants({id}))}>{title}</h2>
 
     <Droppable droppableId={id}>
@@ -47,18 +59,15 @@ const DroppableColumn = ({id, tasks, title } : DroppableColumnProps) => {
           {...provided.droppableProps}
           className={`h-full max-h-full flex-1 overflow-y-auto overflow-x-hidden w-full rounded-b-lg flex flex-col py-2 px-2 ${snapshot.isDraggingOver ? overColor[id] : 'bg-surface'}`}
         >
+
           {isTBLoading ? 
-            <SkeletonTask /> 
+            <SkeletonTask />
             : 
-            tasks.map((task, i) => {
-              if (!task) return
-              return <DraggableTask task={task} key={task._id} taskIndex={i}/>
-            })
+            <InnerList tasks={tasks}/>
           }
 
-            {provided.placeholder}
+          {provided.placeholder}
 
-              
         </div>
       )}
 

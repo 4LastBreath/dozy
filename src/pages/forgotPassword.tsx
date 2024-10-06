@@ -9,7 +9,7 @@ const ForgotPassword = () => {
 
     <ContentCard title='Forgot your password?' withLogo={false}>
       <ContentCardParagraph>
-        Please enter the email dress associated with your account. 
+        Please enter the email address associated with your account. 
         We'll seed you a link to reset your password.
       </ContentCardParagraph>
       <ForgotPasswordForm />

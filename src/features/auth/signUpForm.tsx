@@ -111,7 +111,6 @@ const SignUpForm = () => {
 
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.data.error.code === 11000) {
-        console.log(err.response)
         return setError('root', {
           message: 'This email is already taken'
         });
@@ -151,7 +150,7 @@ const SignUpForm = () => {
           )}/>
         ))}
 
-        <div className='flex flex-col gap-1'>
+        <div className='flex flex-col gap-1 w-fit mx-auto'>
             <ReCAPTCHA
               sitekey='6LeAbVIqAAAAAP1MIvmmlYdv8vFnCAvxOvg98AP8'
               onChange={onRecaptchaChange}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Layout from '@/layouts/layout';
 import { useAuth } from '@/prodivers/auth/authContext';
-import DndBoard from '@/components/dnd/dndBoard';
+import DndBoard from '@/components/taskboard/dnd/dndBoard';
 import { useTaskBoard } from '@/prodivers/taskboard/taskboardContext';
 import TaskBoardHeader from '@/components/taskboard/taskBoardHeader';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
@@ -9,13 +9,19 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 const TaskboardPanel = () => {
 
-  const { user, authLoading, isGuest } = useAuth()
-  const { state, setState, getTasksOfList, setLists} = useTaskBoard()
+  const { user, authLoading, isGuest, fetchUserData } = useAuth()
+  const { state, setState, getTasksOfList, setLists } = useTaskBoard()
   const { getLocalStorageItem, setLocalStorageItem } = useLocalStorage('gstate')
-  const [activeLocalStorage, setActiveLocalStorage] = useState(false)
-  const [isFirstLoadDone, setIsFirstLoadDone] = useState(false)
+  const [ activeLocalStorage, setActiveLocalStorage ] = useState(false)
 
   console.log('State:', state)
+
+  useEffect(() => {
+    if (!isGuest) {
+      fetchUserData()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isGuest])
 
   useEffect(() => {
 
@@ -23,11 +29,10 @@ const TaskboardPanel = () => {
 
     setActiveLocalStorage(false)
 
-    if (user.lists.length !== 0 && !isFirstLoadDone) {
+    if (user.lists.length !== 0) {
       console.log('trigger')
       getTasksOfList(user.lists[0]._id)
       setLists(user.lists)
-      setIsFirstLoadDone(true)
     }
 
     if (isGuest) {
@@ -38,7 +43,7 @@ const TaskboardPanel = () => {
    }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authLoading, isGuest])
+  }, [authLoading, isGuest, fetchUserData])
 
   useEffect(() => {
     if (isGuest && !authLoading && activeLocalStorage) {

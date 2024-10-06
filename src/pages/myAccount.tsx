@@ -3,6 +3,7 @@ import UpdateUserForm from '@/features/user/updateUserForm';
 import Layout from '@/layouts/layout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Title from '@/components/ui/title';
+import DeleteAccountDialog from '@/features/user/deleteAccountDialog';
 
 const MyAccount = () => {
   return (
@@ -19,14 +20,17 @@ const MyAccount = () => {
             {/* Account */}
             <TabsContent value="account" className='flex flex-col items-center w-full h-full max-w-lg'>
               <Title className='justify-center mb-6'>My Account</Title>
-              <div className='bg-primary/30 w-[80%] h-[2px] mx-auto mb-8'></div>
+              <div className='bg-primary/30 w-[80%] h-[2px] mx-auto mb-8'/>
               <UpdateUserForm />
+              <Title className='justify-center mb-6 mt-16'>Account Removal</Title>
+              <div className='bg-primary/30 w-[80%] h-[2px] mx-auto mb-8'/>
+              <DeleteAccountDialog />
             </TabsContent>
 
             {/* Password */}
             <TabsContent value="password" className='flex flex-col items-center w-full h-full max-w-lg'>
                 <Title className='justify-center mb-6'>Change Password</Title>
-                <div className='bg-primary/30 w-[80%] h-[2px] mx-auto mb-8'></div>
+                <div className='bg-primary/30 w-[80%] h-[2px] mx-auto mb-8'/>
                 <UpdatePasswordForm />
             </TabsContent>
             

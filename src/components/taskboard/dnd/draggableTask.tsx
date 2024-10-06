@@ -4,10 +4,10 @@ import { Draggable } from '@hello-pangea/dnd';
 import { cva } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
-import { Input } from '../ui/input';
-import { Textarea } from '../ui/textarea';
+import { Input } from '../../ui/input';
+import { Textarea } from '../../ui/textarea';
 import { useTaskBoardApi } from '@/hooks/useTaskboardApi';
-import { DeleteCancelButton, EditValidButton, MoveToButton } from '../taskboard/taskButtons';
+import { DeleteCancelButton, EditValidButton, MoveToButton } from '../taskButtons';
 import { MAX_TASK_NAME_CH, MAX_TASK_DESCRIPTION_CH } from '@/utils/maxLength';
 import { useTaskBoard } from '@/prodivers/taskboard/taskboardContext';
 
@@ -40,7 +40,7 @@ const DraggableTask = ({ task, taskIndex } :  DraggableTaskProps) => {
   const formattedDate = date.toLocaleDateString('en-GB', options);
 
   const taskNameVariants = cva(
-    'font-semibold text-xl max-w-[240px] overflow-hidden text-ellipsis',
+    'font-semibold text-xl min-w-[0px] max-w-[340px] md:max-w-[240px] overflow-hidden text-ellipsis',
     {
       variants: {
         status: {
@@ -141,7 +141,7 @@ const DraggableTask = ({ task, taskIndex } :  DraggableTaskProps) => {
             ${snapshot.isDragging ? draggingColors[status] : 'bg-neutral-50 dark:bg-neutral-600'}`}
           >
 
-          <div className='flex flex-col flex-1 gap-2 px-4 py-3'>
+          <div className='flex flex-col w-[calc(100%-2rem)] gap-2 px-4 py-3'>
 
             {isEditing ?
               <form onSubmit={editTaskSubmit} className='flex flex-col gap-3'>
@@ -163,7 +163,7 @@ const DraggableTask = ({ task, taskIndex } :  DraggableTaskProps) => {
               </form> : 
               <>
                 <h3 className={cn(taskNameVariants({status}))}>{taskName}</h3>
-                {task.description && <p className=' text-neutral-600 dark:text-neutral-300 font-medium'>{taskDescription}</p>}
+                {task.description && <p className=' text-neutral-600 dark:text-neutral-300 font-medium mb-2 break-words text-wrap'>{taskDescription}</p>}
               </>
             }
             
@@ -178,7 +178,7 @@ const DraggableTask = ({ task, taskIndex } :  DraggableTaskProps) => {
             </div>
           </div>
 
-          <div className={`w-8 h-full ${snapshot.isDragging && 'opacity-60'}`}>
+          <div className={`w-8 min-w-8 h-full ${snapshot.isDragging && 'opacity-60'}`}>
 
             <EditValidButton
               setIsEditing={setIsEditing}

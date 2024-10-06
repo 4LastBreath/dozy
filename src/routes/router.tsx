@@ -9,6 +9,8 @@ import Loading from "@/pages/loading";
 import Taskboard from "@/pages/taskboard";
 import ForgotPassword from "@/pages/forgotPassword";
 import ResetPassword from "@/pages/resetPassword";
+import RecoverAccount from "@/pages/recoverAccount";
+import ActiveAccount from "@/pages/activeAccount";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +24,14 @@ export const router = createBrowserRouter([
   {
     path: '/taskboard',
     element: <Taskboard />
+  },
+  {
+    path: '/recoverAccount',
+    element: <RecoverAccount />
+  },
+  {
+    path: '/activeAccount/:recoveryToken',
+    element: <ActiveAccount />
   },
   {
     element: <RedirectIfLogged />,

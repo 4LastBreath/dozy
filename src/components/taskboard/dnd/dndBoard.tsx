@@ -5,13 +5,14 @@ import DroppableColumn from './droppableColumn';
 import { useTaskBoard } from '@/prodivers/taskboard/taskboardContext';
 import { useState } from 'react';
 import { useCurrentWidth } from '@/hooks/useScreenSize';
-import MobileTabs from '../taskboard/mobileTabs';
+import MobileTabs from '../mobileTabs';
+import { flushSync } from 'react-dom';
 
 
 const DndBoard = () => {
 
-  const { updateTaskApi } = useTaskBoardApi()
-  const { state, setState } = useTaskBoard()
+  const { updateTaskApi, updateTasksOrderApi } = useTaskBoardApi()
+  const { state, setState, activeListId } = useTaskBoard()
   const { md } = useCurrentWidth()
 
   const [activeColumn, setActiveColumn] = useState<Status>('todo')
@@ -48,8 +49,12 @@ const DndBoard = () => {
         }
       }
 
-      setState(newState)
-      return
+      flushSync(() => {
+        setState(newState)
+      })
+
+      updateTasksOrderApi(activeListId, newState)
+      return 
     }
 
     // Moving from one list to another
@@ -85,7 +90,10 @@ const DndBoard = () => {
       }
     }
 
-    setState(newState)
+    flushSync(() => {
+      setState(newState)
+    })
+    updateTasksOrderApi(activeListId, newState)
   };
 
   const filteredColumn = state.columnOrder.filter(column => column === activeColumn)

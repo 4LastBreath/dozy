@@ -42,7 +42,7 @@ const Header = ({setIsDrawerOpen} : HeaderProps) => {
           <Skeleton className='h-[40px] w-[40px]'/> 
           : 
           (user._id ?
-            <Avatar>
+            <Avatar className='border'>
               <AvatarImage src={user.avatar} />
             </Avatar> 
             : 

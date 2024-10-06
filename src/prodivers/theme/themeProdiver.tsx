@@ -8,7 +8,7 @@ export function ThemeProdiver({children} : PropsWithChildren) {
 
   const { getLocalStorageItem, setLocalStorageItem } = useLocalStorage('theme')
 
-  const savedTheme = getLocalStorageItem() || 'light'
+  const savedTheme = getLocalStorageItem() || 'dark'
 
   const [theme, setTheme] = useState<ThemeType>(savedTheme)
 

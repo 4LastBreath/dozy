@@ -1,11 +1,18 @@
 import { NavLink } from "react-router-dom";
 import { navLinks } from "@/utils/navLinks";
+import { useAuth } from "@/prodivers/auth/authContext";
 
 const DrawerNav = () => {
+
+  const { isGuest } = useAuth()
+  
   return (
 <nav className="flex flex-col w-full" role='navigation' aria-label='primary'>
-  {navLinks.map(link => (
-    <NavLink to={link.path} key={link.name}
+  {navLinks.map(link => {
+
+    if (isGuest && link.path === '/myAccount') return
+
+    return <NavLink to={link.path} key={link.name}
     className={({ isActive }) =>
       `
         relative font-medium px-2 py-4 hover:bg-neutral-300/70 dark:hover:bg-neutral-900/50
@@ -18,7 +25,7 @@ const DrawerNav = () => {
   >
     {link.name}
   </NavLink>
-  ))}
+})}
 </nav>
   );
 };

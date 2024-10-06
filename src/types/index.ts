@@ -45,3 +45,19 @@ export type TaskBoardState = {
   };
   columnOrder: Status[];
 }
+
+
+// HOME DEMO DND
+
+export type DemoTask = {
+  id: string;
+  logo: JSX.Element;
+}
+
+export type DemoState = {
+  tasks: {
+    [key: string]: DemoTask
+  };
+  tasksOrder: string[]
+}
+

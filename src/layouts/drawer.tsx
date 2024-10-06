@@ -52,7 +52,7 @@ const DrawerDisplay = ({isOpen, setIsOpen} : DrawerDisplayProps) => {
 
         {user._id &&
           <div className='flex flex-col gap-2 items-center mb-6'>
-            <Avatar className='w-20 h-20'>
+            <Avatar className='w-20 h-20 border'>
               <AvatarImage src={user.avatar}/>
               <AvatarFallback>Avatar</AvatarFallback>
             </Avatar>

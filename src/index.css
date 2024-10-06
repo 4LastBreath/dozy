@@ -35,14 +35,18 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    --scrollbar-bg: 0 0% 90%;
+    --scrollbar-thumb: 0 0% 75%;
+    --scrollbar-thumb-hover: 0 0% 70%;
+    --scrollbar-thumb-active: 0 0% 65%;
   }
   
   html[data-theme='dark'] {
     /* shadcn/ui */
     --background: 0 0% 16%;
     --foreground: 0 0% 98%;
-    --surface: 0 0% 20%;
-    --card: 0 0% 4%;
+    --surface: 0 0% 19%;
+    --card: 0 0% 14%;
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 98%;
     --popover-foreground: 0 0% 4%;
@@ -66,6 +70,10 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --scrollbar-bg: 0 0% 13%;
+    --scrollbar-thumb: 0 0% 25%;
+    --scrollbar-thumb-hover: 0 0% 30%;
+    --scrollbar-thumb-active: 0 0% 35%;
   }
 }
 
@@ -84,5 +92,35 @@
   footer {
     transition: background-color 0.1s ease;
   }
+}
+
+::-webkit-scrollbar-button {
+  height: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--scrollbar-thumb));
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--scrollbar-thumb-hover));
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: hsl(var(--scrollbar-thumb-active));
+}
+
+::-webkit-scrollbar {
+  background-color: hsl(var(--scrollbar-bg));
+  width: 10px;
+}
+
+textarea::-webkit-scrollbar {
+  width: 6px;
+  background-color: transparent;
+}
+
+textarea::-webkit-scrollbar-button {
+  height: 4px;
 }
 

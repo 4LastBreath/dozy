@@ -2,11 +2,14 @@ import { useState, PropsWithChildren } from 'react';
 import { TaskboardContext } from './taskboardContext';
 import { TaskBoardState, Task, List, Status } from '@/types';
 import { useTaskBoardApi } from '@/hooks/useTaskboardApi';
+import { useAuth } from '../auth/authContext';
 
 
 const TaskboardProvider = ({children}: PropsWithChildren) => {
 
   const { getListApi } = useTaskBoardApi()
+  const { isGuest } = useAuth()
+
 
   const initialState: TaskBoardState = {
     tasks: {},
@@ -36,7 +39,7 @@ const TaskboardProvider = ({children}: PropsWithChildren) => {
   const [isTBLoading, setIsTBLoading] = useState(false)
 
   const isListsEmpty = lists.length === 0
-  const isTaskLimitReached = Object.keys(state.tasks).length >= 50
+  const isTaskLimitReached = isGuest ? Object.keys(state.tasks).length >= 30 : Object.keys(state.tasks).length >= 50
   const isListLimitReached = lists.length >= 10
 
   const tasksArrayToObject = (tasks:Task[]): {[key: string]: Task} => {
@@ -47,40 +50,44 @@ const TaskboardProvider = ({children}: PropsWithChildren) => {
   }
 
   async function getTasksOfList(listId: string) {
-
-    if (activeListId === listId) return
-
+    if (activeListId === listId) return;
+  
     try {
-      setIsTBLoading(true)
+      setIsTBLoading(true);
+      const res = await getListApi(listId);
+  
+      if (!res || !res.data.list) return;
+  
+      setActiveListId(listId);
 
-      const res = await getListApi(listId)
-
-      if (!res || !res.data.list) return
-
-      setActiveListId(listId)
-      const tasks = res.data.list.tasks
-
+      const tasksByStatus = res.data.list.tasksByStatus; 
+  
+      // Initialize updated columns with initial state
       const updatedColumns = { ...initialState.columns };
 
-      tasks.forEach((task: Task) => {
-        if (!updatedColumns[task.status].taskIds.includes(task._id)) {
-          updatedColumns[task.status].taskIds.push(task._id);
-        }
+      Object.keys(tasksByStatus).forEach((status) => {
+        tasksByStatus[status].forEach((task: Task) => {
+          if (!updatedColumns[status].taskIds.includes(task._id)) {
+            updatedColumns[status].taskIds.push(task._id);
+          }
+        });
       });
-
-      const newTasksObj = tasksArrayToObject(tasks)
+  
+      const newTasksObj = tasksArrayToObject(tasksByStatus.todo.concat(
+        tasksByStatus.inProgress,
+        tasksByStatus.done
+      ));
       
-      // renit state and set the new data from res
       setState({
         ...initialState,
-          tasks: newTasksObj,
-          columns: updatedColumns
-      })
-
+        tasks: newTasksObj,
+        columns: updatedColumns
+      });
+  
     } catch (err) {
-      console.log('error:', err)
+      console.log('error:', err);
     } finally {
-      setIsTBLoading(false)
+      setIsTBLoading(false);
     }
   }
 

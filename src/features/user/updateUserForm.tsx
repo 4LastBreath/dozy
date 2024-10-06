@@ -84,6 +84,9 @@ const UpdateUserForm = () => {
 
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.data?.message) {
+        if (err.response.data.error.code === 11000) {
+          return toast.error('This email is already taken');
+        }
           return toast.error(err.response.data.message);
       }
        return toast.error('Something went wrong, please try again later');

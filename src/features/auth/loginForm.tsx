@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -21,6 +22,8 @@ const LoginForm = () => {
   const { fetchUserData } = useAuth()
   const toast = useToast()
   const navigate = useNavigate()
+
+  const [isAccountDisabled, setIsAccountDisabled] = useState(false)
 
   const fields = [
     {
@@ -55,6 +58,7 @@ const LoginForm = () => {
   const { formState: { isSubmitting }, setError } = form;
 
   async function onSubmit (values: FormFields) {
+    setIsAccountDisabled(false)
     try {
       const res = await axios.post('http://localhost:3000/api/v1/users/login', {
         email: values.email,
@@ -74,6 +78,9 @@ const LoginForm = () => {
 
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.data?.message) {
+          if (err.response.data.message === 'This account has been disabled') {
+            return setIsAccountDisabled(true)
+          }
           return setError('root', {
             message: err.response.data.message
           });
@@ -104,13 +111,19 @@ const LoginForm = () => {
                 </FormControl>
                 <FormMessage />
                 {(form.formState.errors.root && el.name === 'password') && <FormMessage>{form.formState.errors.root.message}</FormMessage>}
+                {(isAccountDisabled && el.name === 'password') &&
+                  <FormMessage>
+                    <span>This account has been disabled, you can recover it </span>
+                    <Link to={'/recoverAccount'} className='underline'>here.</Link>
+                  </FormMessage>
+                }
             </FormItem>
           )}/>
         ))}
 
-        
-
-        <Link to='/forgotPassword' className='text-[0.75rem] mt-[-10px] ml-1 text-neutral-600 dark:text-neutral-300 hover:text-primary'>Forgot password?</Link>
+        <Link to='/forgotPassword' className='w-fit text-[0.75rem] mt-[-10px] ml-auto mr-1 text-neutral-600 dark:text-neutral-300 hover:text-primary'>
+          Forgot password?
+        </Link>
       
         <Button type='submit' className='w-full' isLoading={isSubmitting} disabled={isSubmitting}>Log In</Button>
       </div>

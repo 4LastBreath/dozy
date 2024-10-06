@@ -53,8 +53,8 @@ const TaskBoardHeader = () => {
 
     {md ?
       <div className='flex gap-2'>
+        {(!isGuest && !authLoading) && <NewListButton />}
         {!isListsEmpty && <DeleteListButton/>}
-        {!isGuest && (authLoading ? <SkeletonButton /> : <NewListButton />)}
       </div>
       :
       !isListsEmpty ? 
@@ -66,14 +66,14 @@ const TaskBoardHeader = () => {
           </PopoverTrigger>
 
           <PopoverContent className="flex flex-col gap-2 bg-surface">
+            {!isGuest && (authLoading ? <SkeletonButton /> : <NewListButton />)}
             {!isListsEmpty &&
                 <DeleteListButton/>
             }
-            {!isGuest && (authLoading ? <SkeletonButton /> : <NewListButton />)}
           </PopoverContent>
 
         </Popover>
-      ) : (!isGuest && (authLoading ? <SkeletonButton /> : <NewListButton />))
+      ) : ((!isGuest && !authLoading) && <NewListButton />)
     }
 
 </div>

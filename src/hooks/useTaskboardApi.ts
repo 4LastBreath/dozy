@@ -1,7 +1,8 @@
 import api from "@/api"
 import { useToast } from "@/prodivers/toasts/toastContext"
-import { Status } from "@/types"
+import { Status, TaskBoardState } from "@/types"
 import { useAuth } from "@/prodivers/auth/authContext"
+import axios from "axios"
 
 export const useTaskBoardApi = () => {
 
@@ -20,8 +21,10 @@ export const useTaskBoardApi = () => {
 
       return task
     } catch (err) {
-      toast.error('Failed to create the task, please try again later')
-      console.error(err)
+      if (axios.isAxiosError(err) && err.response?.data?.message) {
+        return toast.error(err.response.data.message);
+      }
+      return toast.error('Failed to create the task, please try again later');
     }
   }
 
@@ -44,7 +47,7 @@ export const useTaskBoardApi = () => {
       await api.patch(`/tasks/${taskId}`, {
         name,
         description,
-        status
+        status,
       })
 
     } catch (err) {
@@ -59,7 +62,10 @@ export const useTaskBoardApi = () => {
       const res = await api.post('/lists', {name})
       return res
     } catch (err) {
-      console.log(err)
+      if (axios.isAxiosError(err) && err.response?.data?.message) {
+        return toast.error(err.response.data.message);
+      }
+      return toast.error('Failed to create the list, please try again later');
     }
   }
 
@@ -89,12 +95,34 @@ export const useTaskBoardApi = () => {
     }
   }
 
+  async function updateTasksOrderApi(listId: string, newState: TaskBoardState) {
+    if (isGuest) return 
+    try {
+      const res = await api.patch(`/lists/${listId}`, {
+        tasksByStatus: {
+          todo: newState.columns['todo'].taskIds,
+          inProgress: newState.columns['inProgress'].taskIds,
+          done: newState.columns['done'].taskIds
+        }
+      })
+
+      console.log(res)
+
+      if (res.status === 200) {
+        toast.success('Your list has been reorder with success')
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return {
     createTaskApi,
     deleteTaskApi,
     updateTaskApi,
     createListApi,
     getListApi,
-    deleteListApi
+    deleteListApi,
+    updateTasksOrderApi
   }
 }
