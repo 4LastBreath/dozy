@@ -8,6 +8,7 @@ const Nav = () => {
     if (link.name === 'My Account') return
 
     return <NavLink to={link.path} key={link.name}
+            end
             className={({ isActive }) =>
               `
                 relative font-medium after:content-[''] after:w-0 after:h-[2px] after:bg-foreground after:absolute after:bottom-0 after:left-[50%] after:translate-x-[-50%]

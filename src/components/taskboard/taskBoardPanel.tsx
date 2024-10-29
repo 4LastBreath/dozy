@@ -44,7 +44,7 @@ const TaskboardPanel = () => {
     if (isGuest) {
       const guestState = getLocalStorageItem()
       setActiveLocalStorage(true)
-      setState(guestState)
+      if (guestState) setState(guestState)
     }
    }
 

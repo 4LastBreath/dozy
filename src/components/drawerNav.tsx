@@ -12,7 +12,8 @@ const DrawerNav = () => {
 
     if (isGuest && link.name === 'My Account') return
 
-    return <NavLink to={link.path} key={link.name}
+    return<NavLink to={link.path} key={link.name}
+    end
     className={({ isActive }) =>
       `
         relative font-medium px-2 py-4 hover:bg-neutral-300/70 dark:hover:bg-neutral-900/50
