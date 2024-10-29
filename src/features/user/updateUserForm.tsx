@@ -78,7 +78,7 @@ const UpdateUserForm = () => {
       })
 
       if (res.data.status === 'success') {
-        toast.success('Account successfuly updated!')
+        toast.success('Account updated!')
         fetchUserData()
       }
 

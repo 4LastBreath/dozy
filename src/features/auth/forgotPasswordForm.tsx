@@ -35,7 +35,7 @@ const ForgotPasswordForm = () => {
 
   async function onSubmit (values: FormFields) {
     try {
-      const res = await axios.post('http://localhost:3000/api/v1/users/forgotPassword', {
+      const res = await axios.post('https://dozynodejs-kzyekxdo.b4a.run/api/v1/users/forgotPassword', {
         email: values.email,
       })
 

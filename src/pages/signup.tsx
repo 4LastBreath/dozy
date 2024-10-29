@@ -4,8 +4,11 @@ import Layout from '@/layouts/layout';
 
 const SignUp = () => {
 
+  document.title = 'Dozy - Sign Up'
+
   return (
 <Layout>
+
   <div className='min-w-full min-h-full'>
 
     <ContentCard title='Create your account!'>
@@ -13,6 +16,7 @@ const SignUp = () => {
     </ContentCard>
 
   </div>
+
 </Layout>
   );
 };

@@ -13,43 +13,48 @@ import { useTaskBoard } from "@/prodivers/taskboard/taskboardContext";
 import { useAuth } from "@/prodivers/auth/authContext";
 import SkeletonButton from "../ui/skeletonButton";
 import { useCurrentWidth } from "@/hooks/useScreenSize";
-import { FilePen } from "lucide-react";
+import { FilePen, LoaderCircle } from "lucide-react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Button } from "../ui/button";
+import { Skeleton } from "../ui/skeleton";
 
 const TaskBoardHeader = () => {
 
-  const { lists, isListsEmpty, getTasksOfList, activeListId } = useTaskBoard()
+  const { lists, isListsEmpty, getTasksOfList, activeListId, isTBLoading } = useTaskBoard()
   const { isGuest, authLoading } = useAuth()
   const { md } = useCurrentWidth()
 
   return (
 <div className='w-full flex justify-between max-w-[1130px] mx-auto'>
 
-    <div className='flex gap-2'>
-      {!isListsEmpty &&
-        <Select onValueChange={(value) => getTasksOfList(value)} value={activeListId} defaultValue={lists[0]._id}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder={lists[0].name} />
-          </SelectTrigger>
+    {authLoading ?
+      <Skeleton className='w-56 h-10'/>
+      :
+      <div className='flex gap-2'>
+        {!isListsEmpty &&
+          <Select onValueChange={(value) => getTasksOfList(value)} value={activeListId} defaultValue={lists[0]._id}>
+            <SelectTrigger className='w-[180px]'>
+              {isTBLoading ? <LoaderCircle className='animate-spin' /> : <SelectValue placeholder={lists[0].name} />}
+            </SelectTrigger>
+              
+                <SelectContent>
+                    <SelectGroup>
+                      {lists.map(list => {
+                        return <SelectItem value={list._id} key={list._id}>{list.name}</SelectItem>
+                      })}
+                    </SelectGroup>
+                </SelectContent>
             
-              <SelectContent>
-                  <SelectGroup>
-                    {lists.map(list => {
-                      return <SelectItem value={list._id} key={list._id}>{list.name}</SelectItem>
-                    })}
-                  </SelectGroup>
-              </SelectContent>
-          
-        </Select>
-      }
+          </Select>
+        }
 
-      {(!isListsEmpty || isGuest) && <AddTaskButton />}
-    </div>
+        {(!isListsEmpty || isGuest) && <AddTaskButton />}
+      </div>
+    }
 
     {md ?
       <div className='flex gap-2'>
@@ -65,7 +70,7 @@ const TaskBoardHeader = () => {
               </Button>
           </PopoverTrigger>
 
-          <PopoverContent className="flex flex-col gap-2 bg-surface">
+          <PopoverContent className='flex flex-col gap-2 bg-surface'>
             {!isGuest && (authLoading ? <SkeletonButton /> : <NewListButton />)}
             {!isListsEmpty &&
                 <DeleteListButton/>

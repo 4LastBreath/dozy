@@ -30,8 +30,6 @@ const DeleteAccountDialog = () => {
     try {
       const res = await api.patch('/users/deleteMe')
 
-      console.log(res)
-
       if (res.status === 204) {
         toast.success('Your account has been deleted with success')
         fetchUserData()

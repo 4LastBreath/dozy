@@ -1,13 +1,10 @@
-import Layout from '@/layouts/layout';
-
+import LogoLoading from '@/components/logo/logoLoading';
 
 const Loading = () => {
   return (
-<Layout>
     <div className='h-full w-full flex flex-col items-center justify-center'>
-        <p>Loading...</p>
+      <LogoLoading />
     </div>
-</Layout>
   );
 };
 

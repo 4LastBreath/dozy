@@ -15,16 +15,18 @@ interface HeaderProps {
 
 const Header = ({setIsDrawerOpen} : HeaderProps) => {
 
-  const { logout, user, authLoading } = useAuth()
+  const { logout, user, authLoading, isGuest } = useAuth()
   const navigate = useNavigate()
 
   const logoutUser = () => {
     logout()
-    navigate('/')
+    setTimeout(() => {
+      navigate('/')
+    }, 500)
   }
 
   return (
-<header className='h-header w-full flex items-center justify-between px-6 py-2 bg-background'>
+<header className='h-header w-full flex items-center justify-between px-2 sm:px-6 py-2 bg-background'>
     
     <Link to='/'>
       <LogoType />
@@ -41,7 +43,7 @@ const Header = ({setIsDrawerOpen} : HeaderProps) => {
         {authLoading ? 
           <Skeleton className='h-[40px] w-[40px]'/> 
           : 
-          (user._id ?
+          (!isGuest ?
             <Avatar className='border'>
               <AvatarImage src={user.avatar} />
             </Avatar> 
@@ -54,39 +56,36 @@ const Header = ({setIsDrawerOpen} : HeaderProps) => {
 
     <div className='hidden gap-2 items-center lg:flex'>
 
-      {user._id && 
-          (authLoading ? 
+
+          {authLoading ? 
             <>
               <SkeletonButton /> 
               <SkeletonButton />
             </>
             : 
             <>
-              <Button variant='secondary' onClick={logoutUser}>Log out</Button>
-              <Link className={`${buttonVariants({ variant: "default" })} gap-2`} to={'/myAccount'}>
-                <Avatar>
-                  <AvatarImage src={user.avatar} />
-                  <AvatarFallback>Avatar</AvatarFallback>
-                </Avatar>
-                <p className='flex items-center'>{user?.username}</p>
-              </Link>
+            {!isGuest ?
+              <> 
+                <Button variant='secondary' onClick={logoutUser}>Log out</Button>
+                <Link className={`${buttonVariants({ variant: "default" })} gap-2`} to={'/myAccount'}>
+                  <Avatar>
+                    <AvatarImage src={user.avatar} />
+                    <AvatarFallback>
+                      <Skeleton className='w-full h-full'/>
+                    </AvatarFallback>
+                  </Avatar>
+                  <p className='flex items-center'>{user?.username}</p>
+                </Link>
+              </>
+              :
+              <>
+                <Link to='/signup' className={buttonVariants({ variant: "default" })}>Sign up</Link>
+                <Link to='/login' className={buttonVariants({ variant: "secondary" })}>Log in</Link>
+              </>
+            }
             </>
-          )
-      }
+          }
 
-      {!user._id && 
-        (authLoading ? 
-          <>
-            <SkeletonButton /> 
-            <SkeletonButton />
-          </>
-          : 
-          <>
-            <Link to='/signup' className={buttonVariants({ variant: "default" })}>Sign up</Link>
-            <Link to='/login' className={buttonVariants({ variant: "secondary" })}>Log in</Link>
-          </>
-        )
-      }
 
       <div className='h-[40px] w-[2px] ml-2 bg-primary opacity-20'/>
       <ThemeSwitch />

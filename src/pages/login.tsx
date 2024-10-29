@@ -3,8 +3,12 @@ import LoginForm from '@/features/auth/loginForm';
 import { ContentCard } from '@/components/ui/contentCard';
 
 const Login = () => {
+
+  document.title = 'Dozy - Login'
+
   return (
 <Layout>
+
   <div className='min-w-full min-h-full'>
 
     <ContentCard title='Log into your account'>
@@ -12,6 +16,7 @@ const Login = () => {
     </ContentCard>
 
   </div>
+  
 </Layout>
   );
 };

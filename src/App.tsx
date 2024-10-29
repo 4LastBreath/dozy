@@ -8,13 +8,13 @@ function App() {
 
 
   return (
-<ThemeProdiver>
-  <ToastProvider>
-    <AuthProdiver>
-        <RouterProvider router={router}></RouterProvider>
-    </AuthProdiver>
-  </ToastProvider>
-</ThemeProdiver>
+  <ThemeProdiver>
+    <ToastProvider>
+      <AuthProdiver>
+          <RouterProvider router={router}></RouterProvider>
+      </AuthProdiver>
+    </ToastProvider>
+  </ThemeProdiver>
   )
 }
 

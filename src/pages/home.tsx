@@ -1,80 +1,66 @@
 import Layout from '@/layouts/layout';
 import Title from '@/components/ui/title';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Check, CheckCheck, X, UserRound, UserRoundCheck } from 'lucide-react';
 import DndDemo from '@/components/home/dnd/dndDemo';
+import Footer from '@/layouts/footer';
+import RegisterCards from '@/components/home/registerCards';
+import { useAuth } from '@/prodivers/auth/authContext';
+import UserCard from '@/components/home/userCard';
+import Loading from '@/layouts/loading';
 
 
 const Home = () => {
+
+  document.title = 'Dozy - Todo App'
+
+  const { isGuest, authLoading } = useAuth()
+
   return (
+<>
 <Layout>
-  <div className='flex h-full'>
   
-  <div className='flex-1 flex flex-col gap-4'>
-    <Title className='text-4xl'>One task at the time</Title>
-    <p className='text-pretty max-w-[50ch]'>Stay on top of your tasks with our simple, user-friendly to-do app. Manage your daily tasks in just a few clicks. 
-      Whether for work, personal projects, or daily errands, our tool helps you to achieve your goals.</p>
-    
-    <DndDemo />
-  </div>
+  {authLoading ?
+    <Loading />
+    :
+    <div className={`flex ${isGuest ? 'max-lg:flex-col' : 'max-lg:flex-col-reverse'} max-lg:gap-16 h-full items-center`}>
+      
+      <div className='flex-1 flex flex-col justify-center gap-8 px-4 items-center lg:items-start'>
+          <div>
+            <Title className='max-sm:text-center text-3xl uppercase'>One task at the time</Title>
+            <div className='h-[3px] w-[80%] lg:w-[40%] max-lg:mx-auto bg-primary/50 mb-6 mt-3'/>
+          </div>
 
-    <div className='flex gap-3 flex-1'>
-      <Card className='w-72 shadow-md flex flex-col justify-between h-[350px]'>
-        <CardHeader>
-          <CardTitle className='text-neutral-500 dark:text-neutral-200 flex gap-2 pb-3'>
-            <span>Guest</span><UserRound />
-          </CardTitle>
-          <div className='bg-neutral-400/30 dark:bg-neutral-200/10 w-full h-[2px] rounded-full'/>
-          <CardDescription className='pt-4'>
-              Limited access to your taskboard
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ul>
-            <li className='flex gap-2'><Check className='text-green-400'/><span>1 list</span></li>
-            <li className='flex gap-2'><Check className='text-green-400'/><span>30 tasks</span></li>
-            <li className='flex gap-2'><X className='text-red-400'/><span>Data saved</span></li>
-          </ul>
-        </CardContent>
-        <CardFooter>
-          <Button variant='secondary'>Try it now</Button>
-        </CardFooter>
-      </Card>
+          <div className='flex flex-col gap-2'>
+            <h2 className='flex items-center gap-3 text-xl font-semibold max-lg:justify-center'>
+              <span className='flex items-center justify-center w-[30px] h-[30px] rounded-full bg-card text-primary border border-primary/50'>1</span>
+              Simple To Use
+            </h2>
+            <p className='text-pretty max-w-[50ch] max-lg:text-center text-neutral-600 dark:text-neutral-300 ml-1'>
+              Stay on top of your tasks with our simple, user-friendly to-do app. 
+              Manage your daily tasks in just a few clicks. Whether for work, personal projects, or daily errands, our tool helps you to achieve your goals.
+            </p>
+          </div>
 
-      <Card className='w-72 shadow-md flex flex-col justify-between h-[350px]'>
-        <CardHeader>
-          <CardTitle className='text-primary flex gap-2 pb-3'>
-            <span>Registered User </span><UserRoundCheck />
-          </CardTitle>
-          <div className='bg-primary/20 w-full h-[2px] rounded-full'/>
-          <CardDescription className='pt-4'>
-            Unlock full access to your taskboard
-          </CardDescription>
-        </CardHeader>
-          
-        <CardContent>
-          <ul>
-            <li className='flex gap-2'><CheckCheck className='text-green-400'/><span>10 lists</span></li>
-            <li className='flex gap-2'><CheckCheck className='text-green-400'/><span>50 tasks per lists</span></li>
-            <li className='flex gap-2'><CheckCheck className='text-green-400'/><span>Data saved</span></li>
-          </ul>
-        </CardContent>
-        <CardFooter>
-          <Button>Sign up</Button>
-        </CardFooter>
-      </Card>
+          <div className='flex flex-col gap-2'>
+            <h2 className='flex items-center gap-3 text-xl font-semibold max-lg:justify-center'>
+              <span className='flex items-center justify-center w-[30px] h-[30px] rounded-full bg-card text-primary border border-primary/50'>2</span>
+              Reorder Your Priorities
+            </h2>
+            <p className='text-pretty max-w-[50ch] max-lg:text-center text-neutral-600 dark:text-neutral-300 ml-1'>
+              Effortlessly organize and prioritize your tasks with simple drag-and-drop functionality.
+            </p>
+            <DndDemo />
+          </div>
+
+      </div>
+
+        {isGuest ? <RegisterCards /> : <UserCard />}
+
     </div>
-  </div>
+  }
 
 </Layout>
+<Footer />
+</>
   );
 };
 

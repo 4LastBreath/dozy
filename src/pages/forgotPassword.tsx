@@ -3,6 +3,9 @@ import {ContentCard, ContentCardParagraph} from "@/components/ui/contentCard";
 import ForgotPasswordForm from "@/features/auth/forgotPasswordForm";
 
 const ForgotPassword = () => {
+
+  document.title = 'Dozy - Forgot Password'
+
   return (
 <Layout>
   <div className='min-w-full min-h-full'>

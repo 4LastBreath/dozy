@@ -19,8 +19,8 @@ interface DraggableTaskProps {
 // DRAGGABLE
 const DraggableTask = ({ task, taskIndex } :  DraggableTaskProps) => {
 
-  const { updateTaskApi, deleteTaskApi } = useTaskBoardApi()
-  const { updateTask, deleteTask, state, setState } = useTaskBoard()
+  const { updateTaskApi, deleteTaskApi, updateTasksOrderApi } = useTaskBoardApi()
+  const { updateTask, deleteTask, state, setState, activeListId } = useTaskBoard()
   const [isEditing, setIsEditing] = useState(false)
   const [taskName, setTaskName] = useState(task.name)
   const [taskNameError, setTaskNameError] = useState('')
@@ -125,6 +125,7 @@ const DraggableTask = ({ task, taskIndex } :  DraggableTaskProps) => {
     }
 
     setState(newState)
+    updateTasksOrderApi(activeListId, newState)
   }
 
   return (

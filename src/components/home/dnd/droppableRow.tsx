@@ -11,7 +11,7 @@ const DroppableRow = ({state} : DroppableRowProps) => {
 <Droppable droppableId='demo' direction='horizontal'>
     {(provided) => (
       <div
-        className='flex py-2 bg-surface pl-2 w-fit rounded-md shadow-md mt-5'
+        className='flex py-2 bg-surface pl-2 w-fit rounded-md shadow-md mt-5 max-lg:mx-auto'
         ref={provided.innerRef}
         {...provided.droppableProps}
       >

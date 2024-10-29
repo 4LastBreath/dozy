@@ -24,9 +24,14 @@ export default {
           '0%': { width: '100%' },
           '100%': { width: '0%' },
         },
+				logoLoading: {
+					'0%': { filter: 'brightness(1)' },
+					'100%': { filter: 'brightness(1.6)' },
+				}
       },
 			animation: {
 				'toast-line': 'line 5s linear',
+				'logo-loading': 'logoLoading 3s ease-in-out alternate infinite'
 			},
   		colors: {
   			background: 'hsl(var(--background))',

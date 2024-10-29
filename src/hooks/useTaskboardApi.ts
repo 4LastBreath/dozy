@@ -76,7 +76,7 @@ export const useTaskBoardApi = () => {
       return res
 
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 
@@ -85,34 +85,28 @@ export const useTaskBoardApi = () => {
     try {
       const res = await api.delete(`/lists/${listId}`)
 
-      console.log(res)
+      console.error(res)
 
       if (res.status === 204) {
         toast.success('Your list has been deleted with success')
       }
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 
   async function updateTasksOrderApi(listId: string, newState: TaskBoardState) {
     if (isGuest) return 
     try {
-      const res = await api.patch(`/lists/${listId}`, {
+      await api.patch(`/lists/${listId}`, {
         tasksByStatus: {
           todo: newState.columns['todo'].taskIds,
           inProgress: newState.columns['inProgress'].taskIds,
           done: newState.columns['done'].taskIds
         }
       })
-
-      console.log(res)
-
-      if (res.status === 200) {
-        toast.success('Your list has been reorder with success')
-      }
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 

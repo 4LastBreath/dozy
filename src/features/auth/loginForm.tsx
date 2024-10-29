@@ -60,7 +60,7 @@ const LoginForm = () => {
   async function onSubmit (values: FormFields) {
     setIsAccountDisabled(false)
     try {
-      const res = await axios.post('http://localhost:3000/api/v1/users/login', {
+      const res = await axios.post('https://dozynodejs-kzyekxdo.b4a.run/api/v1/users/login', {
         email: values.email,
         password: values.password,
       }, {
@@ -70,8 +70,8 @@ const LoginForm = () => {
       if (res.data.status === 'success') {
         toast.success('You\'re logged in!')
         form.reset()
+        fetchUserData()
         setTimeout(() => {
-          fetchUserData()
           navigate('/')
         }, 500)
       }

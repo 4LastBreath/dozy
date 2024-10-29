@@ -9,6 +9,7 @@ const Logo = ({...props} : SvgProps) => (
     height={"3.125rem"}
     viewBox="0 0 95 95"
     fill="none"
+    className='shrink-0'
     {...props}
   >
     <path

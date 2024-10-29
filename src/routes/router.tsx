@@ -5,12 +5,12 @@ import Home from "../pages/home";
 import SignUp from "@/pages/signup";
 import Login from "@/pages/login";
 import MyAccount from "@/pages/myAccount";
-import Loading from "@/pages/loading";
 import Taskboard from "@/pages/taskboard";
 import ForgotPassword from "@/pages/forgotPassword";
 import ResetPassword from "@/pages/resetPassword";
 import RecoverAccount from "@/pages/recoverAccount";
 import ActiveAccount from "@/pages/activeAccount";
+import NotFound from "@/pages/notFound";
 
 export const router = createBrowserRouter([
   {
@@ -18,8 +18,8 @@ export const router = createBrowserRouter([
     element: <Home />
   },
   {
-    path: '/loading',
-    element: <Loading />
+    path: '*',
+    element: <NotFound />
   },
   {
     path: '/taskboard',

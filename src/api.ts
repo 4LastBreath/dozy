@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api/v1',
+  baseURL: 'https://dozynodejs-kzyekxdo.b4a.run/api/v1',
   withCredentials: true,
   headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'},
 });
@@ -16,8 +16,7 @@ api.interceptors.response.use(
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true; 
       try {
-        const res = await api.post('/users/refreshToken');
-        console.log(res)
+        await api.post('/users/refreshToken');
         return api(originalRequest);
       } catch (refreshError) {
         console.error("Unable to refresh token", refreshError);

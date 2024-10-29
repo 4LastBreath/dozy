@@ -5,6 +5,7 @@ import DndBoard from '@/components/taskboard/dnd/dndBoard';
 import { useTaskBoard } from '@/prodivers/taskboard/taskboardContext';
 import TaskBoardHeader from '@/components/taskboard/taskBoardHeader';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useLocation } from 'react-router-dom';
 
 
 const TaskboardPanel = () => {
@@ -13,8 +14,8 @@ const TaskboardPanel = () => {
   const { state, setState, getTasksOfList, setLists } = useTaskBoard()
   const { getLocalStorageItem, setLocalStorageItem } = useLocalStorage('gstate')
   const [ activeLocalStorage, setActiveLocalStorage ] = useState(false)
-
-  console.log('State:', state)
+  const { hash } = useLocation()
+  const hashId = hash.split('#')[1]
 
   useEffect(() => {
     if (!isGuest) {
@@ -30,9 +31,14 @@ const TaskboardPanel = () => {
     setActiveLocalStorage(false)
 
     if (user.lists.length !== 0) {
-      console.log('trigger')
-      getTasksOfList(user.lists[0]._id)
       setLists(user.lists)
+
+      if (hash) {
+        getTasksOfList(hashId)
+        window.history.replaceState(null, '', window.location.pathname);
+      } else {
+        getTasksOfList(user.lists[0]._id)
+      }
     }
 
     if (isGuest) {
@@ -48,7 +54,6 @@ const TaskboardPanel = () => {
   useEffect(() => {
     if (isGuest && !authLoading && activeLocalStorage) {
         setLocalStorageItem(state)
-        console.log('setLocal trigger', state)
     }
   }, [state, isGuest, setLocalStorageItem, authLoading, activeLocalStorage])
 

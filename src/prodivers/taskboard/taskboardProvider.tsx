@@ -85,7 +85,7 @@ const TaskboardProvider = ({children}: PropsWithChildren) => {
       });
   
     } catch (err) {
-      console.log('error:', err);
+      console.error(err);
     } finally {
       setIsTBLoading(false);
     }

@@ -12,9 +12,9 @@ export const ContentCard = ({ title, children, withLogo = true } : CardProps) =>
   return (
 <div className='w-full max-w-md py-8 sm:px-6 sm:shadow-xl rounded-xl mx-auto sm:border sm:bg-surface bg-transparent px-2'>
 
-      <div className='flex gap-4 justify-center w-full mb-6'>
+      <div className='flex gap-4 justify-center w-full mb-6 max-sm:flex-col max-sm:items-center'>
         {withLogo && <Logo />}
-        <Title>{title}</Title>
+        <Title className='text-center'>{title}</Title>
       </div>
 
       {children}

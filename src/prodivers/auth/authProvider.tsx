@@ -28,13 +28,11 @@ export const AuthProdiver = ({children}: PropsWithChildren) => {
     try {
       setIsGuest(false)
       const { data } = await api.get('/users/me');
-      console.log(data)
-
       setUser(data.user); 
     } catch (err) {
       setIsGuest(true)
       setUser(defaultUser);
-      console.log(err)
+      console.error(err)
     } finally {
       setAuthLoading(false);
     }
@@ -42,7 +40,7 @@ export const AuthProdiver = ({children}: PropsWithChildren) => {
 
   const logout = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/v1/users/logout', {
+      const res = await axios.get('https://dozynodejs-kzyekxdo.b4a.run/api/v1/users/logout', {
         withCredentials: true
       })
 
@@ -52,7 +50,7 @@ export const AuthProdiver = ({children}: PropsWithChildren) => {
         toast.success('You\'re logged out!')
       }
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 

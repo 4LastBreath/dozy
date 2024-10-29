@@ -6,6 +6,9 @@ import Title from '@/components/ui/title';
 import DeleteAccountDialog from '@/features/user/deleteAccountDialog';
 
 const MyAccount = () => {
+
+  document.title = 'Dozy - My Account'
+
   return (
   <Layout>
 

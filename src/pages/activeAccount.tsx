@@ -9,6 +9,8 @@ import { LoaderCircle, Frown, Smile } from 'lucide-react';
 
 const ActiveAccount = () => {
 
+  document.title = 'Dozy - Account Recovery'
+
   const toast = useToast()
   const { recoveryToken } = useParams()
   const [isLoading, setIsLoading] = useState(false)
@@ -19,11 +21,7 @@ const ActiveAccount = () => {
   async function activeAccountApi () {
     try {
       setIsLoading(true)
-      const res = await axios.patch(`http://localhost:3000/api/v1/users/activeAccount/${recoveryToken}`)
-
-      if (res.data.status === 'success') {
-        console.log('success')
-      }
+      await axios.patch(`https://dozynodejs-kzyekxdo.b4a.run/api/v1/users/activeAccount/${recoveryToken}`)
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.data?.message) {
         return setError(err.response.data.message);
@@ -41,6 +39,7 @@ const ActiveAccount = () => {
 
   return (
 <Layout>
+
   <ContentCard title={title} withLogo={false}>
     <ContentCardParagraph>
       {isLoading ? 
@@ -60,6 +59,7 @@ const ActiveAccount = () => {
       }
     </ContentCardParagraph>
   </ContentCard>
+
 </Layout>
   );
 };

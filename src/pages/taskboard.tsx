@@ -4,6 +4,8 @@ import TaskboardProvider from "@/prodivers/taskboard/taskboardProvider";
 
 const Taskboard = () => {
 
+  document.title = 'Dozy - TaskBoard'
+
   return (
   <TaskboardProvider>
 

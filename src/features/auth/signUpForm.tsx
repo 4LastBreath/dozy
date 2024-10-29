@@ -88,9 +88,8 @@ const SignUpForm = () => {
   };
 
   async function onSubmit (values: FormFields) {
-    console.log(values)
     try {
-      const res = await axios.post('http://localhost:3000/api/v1/users/signup', {
+      const res = await axios.post('https://dozynodejs-kzyekxdo.b4a.run/api/v1/users/signup', {
         username: values.username,
         email: values.email,
         password: values.password,

@@ -3,8 +3,12 @@ import {ContentCard, ContentCardParagraph} from "@/components/ui/contentCard";
 import ResetPasswordForm from "@/features/auth/resetPasswordForm";
 
 const ResetPassword = () => {
+
+  document.title = 'Dozy - Reset Password'
+
   return (
 <Layout>
+
   <div className='min-w-full min-h-full'>
 
     <ContentCard title='Reset your password' withLogo={false}>
