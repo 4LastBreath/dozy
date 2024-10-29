@@ -104,7 +104,7 @@ const SignUpForm = () => {
         form.reset()
         setTimeout(() => {
           fetchUserData()
-          navigate('/')
+          navigate('/dozy')
         }, 500)
       }
 

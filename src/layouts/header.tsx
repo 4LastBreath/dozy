@@ -21,7 +21,7 @@ const Header = ({setIsDrawerOpen} : HeaderProps) => {
   const logoutUser = () => {
     logout()
     setTimeout(() => {
-      navigate('/')
+      navigate('/dozy')
     }, 500)
   }
 

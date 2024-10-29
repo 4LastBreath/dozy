@@ -73,7 +73,7 @@ const ResetPasswordForm = () => {
         toast.success('Password updated with success!')
         form.reset()
         setTimeout(() => {
-          navigate('/login')
+          navigate('/dozy/login')
         }, 500)
       }
     } catch (err) {

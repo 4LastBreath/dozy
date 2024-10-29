@@ -14,7 +14,7 @@ import NotFound from "@/pages/notFound";
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/dozy',
     element: <Home />
   },
   {
@@ -22,34 +22,34 @@ export const router = createBrowserRouter([
     element: <NotFound />
   },
   {
-    path: '/taskboard',
+    path: '/dozy/taskboard',
     element: <Taskboard />
   },
   {
-    path: '/recoverAccount',
+    path: '/dozy/recoverAccount',
     element: <RecoverAccount />
   },
   {
-    path: '/activeAccount/:recoveryToken',
+    path: '/dozy/activeAccount/:recoveryToken',
     element: <ActiveAccount />
   },
   {
     element: <RedirectIfLogged />,
     children: [
       {
-        path: 'signup',
+        path: '/dozy/signup',
         element: <SignUp />
       },
       {
-        path: 'login',
+        path: '/dozy/login',
         element: <Login />
       },
       {
-        path: '/forgotPassword',
+        path: '/dozy/forgotPassword',
         element: <ForgotPassword />
       },
       {
-        path: '/resetPassword/:resetToken',
+        path: '/dozy/resetPassword/:resetToken',
         element: <ResetPassword />
       },
     ]
@@ -58,7 +58,7 @@ export const router = createBrowserRouter([
     element: <ProtectedRoute />,
     children: [
       {
-        path: 'myAccount',
+        path: '/dozy/myAccount',
         element: <MyAccount />
       }
     ]

@@ -5,7 +5,7 @@ const ProtectedRoute = () => {
   const { user, authLoading } = useAuth()
 
   if (!user._id && !authLoading) {
-    return <Navigate to='/login' replace />
+    return <Navigate to='/dozy/login' replace />
   }
 
   if (user._id && !authLoading) {

@@ -1,5 +1,6 @@
 {
-  "name": "todo-front",
+  "name": "dozy",
+  "homepage": "https://4lastbreath.github.io/dozy",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,7 +8,9 @@
     "start": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@hello-pangea/dnd": "^16.6.0",
