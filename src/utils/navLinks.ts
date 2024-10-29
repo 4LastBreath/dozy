@@ -1,5 +1,5 @@
 export const navLinks = [
-  {path: '/', name: 'Home'},
-  {path: '/taskboard', name: 'TaskBoard'},
-  {path: '/myAccount', name: 'My Account'}
+  {path: '/dozy/', name: 'Home'},
+  {path: '/dozy/taskboard', name: 'TaskBoard'},
+  {path: '/dozy/myAccount', name: 'My Account'}
 ]

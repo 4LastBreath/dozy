@@ -10,7 +10,7 @@ const DrawerNav = () => {
 <nav className="flex flex-col w-full" role='navigation' aria-label='primary'>
   {navLinks.map(link => {
 
-    if (isGuest && link.path === '/myAccount') return
+    if (isGuest && link.name === 'My Account') return
 
     return <NavLink to={link.path} key={link.name}
     className={({ isActive }) =>

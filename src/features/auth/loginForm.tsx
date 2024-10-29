@@ -72,7 +72,7 @@ const LoginForm = () => {
         form.reset()
         fetchUserData()
         setTimeout(() => {
-          navigate('/dozy')
+          navigate('/dozy/')
         }, 500)
       }
 

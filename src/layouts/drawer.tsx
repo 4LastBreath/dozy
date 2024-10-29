@@ -31,7 +31,7 @@ const DrawerDisplay = ({isOpen, setIsOpen} : DrawerDisplayProps) => {
 
   const logoutUser = () => {
     logout()
-    navigate('/dozy')
+    navigate('/dozy/')
   }
 
   useEffect(() => {

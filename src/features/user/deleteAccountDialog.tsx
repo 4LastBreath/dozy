@@ -33,7 +33,7 @@ const DeleteAccountDialog = () => {
       if (res.status === 204) {
         toast.success('Your account has been deleted with success')
         fetchUserData()
-        navigate('/dozy')
+        navigate('/dozy/')
       }
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.data?.message) {
