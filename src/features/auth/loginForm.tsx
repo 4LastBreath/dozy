@@ -121,7 +121,7 @@ const LoginForm = () => {
           )}/>
         ))}
 
-        <Link to='/forgotPassword' className='w-fit text-[0.75rem] mt-[-10px] ml-auto mr-1 text-neutral-600 dark:text-neutral-300 hover:text-primary'>
+        <Link to='/dozy/forgotPassword' className='w-fit text-[0.75rem] mt-[-10px] ml-auto mr-1 text-neutral-600 dark:text-neutral-300 hover:text-primary'>
           Forgot password?
         </Link>
       

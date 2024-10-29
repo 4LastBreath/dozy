@@ -5,7 +5,7 @@ const RedirectIfLogged = () => {
   const { user, authLoading } = useAuth()
 
   if (user._id && !authLoading) {
-    return <Navigate to='/dozy' replace />
+    return <Navigate to='/dozy/' replace />
   }
 
   if (!user._id && !authLoading) {

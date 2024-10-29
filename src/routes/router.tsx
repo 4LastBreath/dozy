@@ -14,7 +14,7 @@ import NotFound from "@/pages/notFound";
 
 export const router = createBrowserRouter([
   {
-    path: '/dozy',
+    path: '/dozy/',
     element: <Home />
   },
   {

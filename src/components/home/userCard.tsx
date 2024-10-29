@@ -53,7 +53,7 @@ const UserCard = () => {
               <div className='text-sm flex flex-col gap-1 text-neutral-800 dark:text-neutral-300'>
                 <div className='flex items-center gap-1 opacity-50'>Empty <Frown size={18}/></div>
                 <div>
-                  Create one <Link to='/taskboard' className='text-primary underline underline-offset-2 hover:text-primary-hover'>here.</Link>
+                  Create one <Link to='/dozy/taskboard' className='text-primary underline underline-offset-2 hover:text-primary-hover'>here.</Link>
                 </div>
              </div>
             )

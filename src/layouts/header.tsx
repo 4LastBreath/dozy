@@ -28,7 +28,7 @@ const Header = ({setIsDrawerOpen} : HeaderProps) => {
   return (
 <header className='h-header w-full flex items-center justify-between px-2 sm:px-6 py-2 bg-background'>
     
-    <Link to='/'>
+    <Link to='/dozy/'>
       <LogoType />
     </Link>
 
@@ -79,8 +79,8 @@ const Header = ({setIsDrawerOpen} : HeaderProps) => {
               </>
               :
               <>
-                <Link to='/signup' className={buttonVariants({ variant: "default" })}>Sign up</Link>
-                <Link to='/login' className={buttonVariants({ variant: "secondary" })}>Log in</Link>
+                <Link to='/dozy/signup' className={buttonVariants({ variant: "default" })}>Sign up</Link>
+                <Link to='/dozy/login' className={buttonVariants({ variant: "secondary" })}>Log in</Link>
               </>
             }
             </>

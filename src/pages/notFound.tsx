@@ -13,7 +13,7 @@ const NotFound = () => {
             <h2 className='text-2xl'>Page not found</h2>
           </div>
           <p className='text-neutral-600 dark:text-neutral-400 text-center mb-7'>Oops! The page you're looking for doesn't exist.</p>
-          <Link to='/' className={buttonVariants({ variant: 'secondary' })}>Return Home</Link>
+          <Link to='/dozy/' className={buttonVariants({ variant: 'secondary' })}>Return Home</Link>
         </div>
 
       

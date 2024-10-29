@@ -74,8 +74,8 @@ const DrawerDisplay = ({isOpen, setIsOpen} : DrawerDisplayProps) => {
           <Button variant="secondary" onClick={logoutUser}>Log out</Button>
           :
           <>
-            <Link to='/signup' className={buttonVariants({ variant: "default" })}>Sign up</Link>
-            <Link to='/login' className={buttonVariants({ variant: "secondary" })}>Log in</Link>
+            <Link to='/dozy/signup' className={buttonVariants({ variant: "default" })}>Sign up</Link>
+            <Link to='/dozy/login' className={buttonVariants({ variant: "secondary" })}>Log in</Link>
           </>
         }
         

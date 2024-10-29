@@ -5,7 +5,7 @@ const Nav = () => {
   return (
 <nav className="hidden lg:flex gap-3" role='navigation' aria-label='primary'>
   {navLinks.map(link => {
-    if (link.path === '/myAccount') return
+    if (link.name === 'My Account') return
 
     return <NavLink to={link.path} key={link.name}
             className={({ isActive }) =>

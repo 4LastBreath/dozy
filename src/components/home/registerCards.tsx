@@ -32,7 +32,7 @@ const RegisterCards = () => {
           </ul>
         </CardContent>
         <CardFooter>
-        <Link to='/taskboard' className={buttonVariants({ variant: "secondary" })}>Try it now</Link>
+        <Link to='/dozy/taskboard' className={buttonVariants({ variant: "secondary" })}>Try it now</Link>
         </CardFooter>
       </Card>
 
@@ -55,7 +55,7 @@ const RegisterCards = () => {
           </ul>
         </CardContent>
         <CardFooter>
-          <Link to='/signup' className={buttonVariants({ variant: "default" })}>Register</Link>
+          <Link to='/dozy/signup' className={buttonVariants({ variant: "default" })}>Register</Link>
         </CardFooter>
       </Card>
 
