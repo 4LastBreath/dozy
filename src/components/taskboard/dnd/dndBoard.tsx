@@ -102,7 +102,7 @@ const DndBoard = () => {
 <DragDropContext onDragEnd={onDragEnd}>
 
     {md ? 
-        <div className='w-full flex gap-4 h-[calc(100vh-theme(height.header)-8rem-6rem)] justify-center'>
+        <div className='w-full flex gap-4 h-[calc(100svh-theme(height.header)-8rem-6rem)] justify-center'>
         {state.columnOrder.map(columnId => {
           const column = state.columns[columnId]
           const tasks = column.taskIds.map(taskId => state.tasks[taskId])
@@ -115,7 +115,7 @@ const DndBoard = () => {
                   />
         })}
       </div> :     
-      <div className='flex w-full gap-4 h-[calc(100vh-theme(height.header)-9rem-6rem)] justify-center'>
+      <div className='flex w-full gap-4 h-[calc(100svh-theme(height.header)-9rem-6rem)] justify-center'>
         {filteredColumn.map(columnId => {
           const column = state.columns[columnId]
           const tasks = column.taskIds.map(taskId => state.tasks[taskId])

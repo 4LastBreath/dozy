@@ -67,7 +67,7 @@ const Header = ({setIsDrawerOpen} : HeaderProps) => {
             {!isGuest ?
               <> 
                 <Button variant='secondary' onClick={logoutUser}>Log out</Button>
-                <Link className={`${buttonVariants({ variant: "default" })} gap-2`} to={'/myAccount'}>
+                <Link className={`${buttonVariants({ variant: "default" })} gap-2`} to={'/dozy/myAccount'}>
                   <Avatar>
                     <AvatarImage src={user.avatar} />
                     <AvatarFallback>
