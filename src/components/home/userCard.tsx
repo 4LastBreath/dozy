@@ -40,7 +40,7 @@ const UserCard = () => {
                 {user.lists.map((list) => (
                   <li key={list._id} className='w-full bg-surface rounded border shadow-sm text-neutral-800 dark:text-neutral-300 hover:bg-surface/70 hover:border-primary'>
                     <Link 
-                      to={`/taskboard/#${list._id}`}
+                      to={`/dozy/taskboard/#${list._id}`}
                       className='h-full w-full flex p-2 outline-none focus-visible:outline-primary rounded'
                     >
                       <Dot className='text-primary shrink-0'/>
