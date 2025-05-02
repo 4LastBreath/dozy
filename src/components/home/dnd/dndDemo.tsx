@@ -12,19 +12,19 @@ const DndDemo = () => {
     tasks: {
       '1': {
         id: '1',
-        logo: <BriefcaseBusiness size={40} className='text-amber-700'/>
+        logo: <BriefcaseBusiness size={40} className='text-amber-700 pointer-events-none'/>
       },
       '2': {
         id: '2',
-        logo: <Dumbbell size={40} className='text-slate-500'/>
+        logo: <Dumbbell size={40} className='text-slate-500 pointer-events-none'/>
       },
       '3': {
         id: '3',
-        logo: <Pizza size={40} className='text-green-600'/>
+        logo: <Pizza size={40} className='text-green-600 pointer-events-none'/>
       },
       '4': {
         id: '4',
-        logo: <Bed size={40} className='text-blue-400'/>
+        logo: <Bed size={40} className='text-blue-400 pointer-events-none'/>
       }
     },
     tasksOrder: ['1', '2', '3', '4']
