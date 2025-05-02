@@ -40,7 +40,7 @@ const DraggableTask = ({ task, taskIndex } :  DraggableTaskProps) => {
   const formattedDate = date.toLocaleDateString('en-GB', options);
 
   const taskNameVariants = cva(
-    'font-semibold text-xl min-w-[0px] max-w-[340px] md:max-w-[240px] overflow-hidden text-ellipsis',
+    'font-semibold text-xl min-w-[0px] max-w-[340px] md:max-w-[240px] overflow-hidden text-ellipsis pointer-events-none',
     {
       variants: {
         status: {
@@ -164,12 +164,12 @@ const DraggableTask = ({ task, taskIndex } :  DraggableTaskProps) => {
               </form> : 
               <>
                 <h3 className={cn(taskNameVariants({status}))}>{taskName}</h3>
-                {task.description && <p className=' text-neutral-600 dark:text-neutral-300 font-medium mb-2 break-words text-wrap'>{taskDescription}</p>}
+                {task.description && <p className='text-neutral-600 dark:text-neutral-300 font-medium mb-2 break-words text-wrap pointer-events-none'>{taskDescription}</p>}
               </>
             }
             
             <div className='w-full flex items-center justify-between'>
-              <p className='opacity-60 text-sm mt-2'>{formattedDate}</p>
+              <p className='opacity-60 text-sm mt-2 pointer-events-none'>{formattedDate}</p>
 
               <div className='flex md:hidden'>
                 {filteredStatus.map(status => (
