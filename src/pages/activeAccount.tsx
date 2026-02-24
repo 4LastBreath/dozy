@@ -21,7 +21,7 @@ const ActiveAccount = () => {
   async function activeAccountApi () {
     try {
       setIsLoading(true)
-      await axios.patch(`https://dozynodejs-kzyekxdo.b4a.run/api/v1/users/activeAccount/${recoveryToken}`)
+      await axios.patch(`https://dozynodejs-fm9v49nn.b4a.run/api/v1/users/activeAccount/${recoveryToken}`)
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.data?.message) {
         return setError(err.response.data.message);

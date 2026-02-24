@@ -60,7 +60,7 @@ const LoginForm = () => {
   async function onSubmit (values: FormFields) {
     setIsAccountDisabled(false)
     try {
-      const res = await axios.post('https://dozynodejs-kzyekxdo.b4a.run/api/v1/users/login', {
+      const res = await axios.post('https://dozynodejs-fm9v49nn.b4a.run/api/v1/users/login', {
         email: values.email,
         password: values.password,
       }, {

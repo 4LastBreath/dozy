@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://dozynodejs-kzyekxdo.b4a.run/api/v1',
+  baseURL: 'https://dozynodejs-fm9v49nn.b4a.run/api/v1',
   withCredentials: true,
   headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'},
 });

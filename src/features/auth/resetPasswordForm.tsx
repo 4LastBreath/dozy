@@ -64,7 +64,7 @@ const ResetPasswordForm = () => {
 
   async function onSubmit (values: FormFields) {
     try {
-      const res = await axios.patch(`https://dozynodejs-kzyekxdo.b4a.run/api/v1/users/resetPassword/${resetToken}`, {
+      const res = await axios.patch(`https://dozynodejs-fm9v49nn.b4a.run/api/v1/users/resetPassword/${resetToken}`, {
         password: values.password,
         passwordConfirm: values.passwordConfirm,
       })
