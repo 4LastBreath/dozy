@@ -16,6 +16,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/prodivers/toasts/toastContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/prodivers/auth/authContext';
+import { API_ROUTES } from '@/utils/api';
 
 const LoginForm = () => {
 
@@ -60,7 +61,7 @@ const LoginForm = () => {
   async function onSubmit (values: FormFields) {
     setIsAccountDisabled(false)
     try {
-      const res = await axios.post('https://dozynodejs-fm9v49nn.b4a.run/api/v1/users/login', {
+      const res = await axios.post(API_ROUTES.login, {
         email: values.email,
         password: values.password,
       }, {

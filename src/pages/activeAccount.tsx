@@ -5,6 +5,7 @@ import axios from "axios";
 import { useToast } from "@/prodivers/toasts/toastContext";
 import { useEffect, useState } from "react";
 import { LoaderCircle, Frown, Smile } from 'lucide-react';
+import { API_ROUTES } from '@/utils/api';
 
 
 const ActiveAccount = () => {
@@ -21,7 +22,7 @@ const ActiveAccount = () => {
   async function activeAccountApi () {
     try {
       setIsLoading(true)
-      await axios.patch(`https://dozynodejs-fm9v49nn.b4a.run/api/v1/users/activeAccount/${recoveryToken}`)
+      await axios.patch(API_ROUTES.activeAccount(recoveryToken))
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.data?.message) {
         return setError(err.response.data.message);

@@ -15,6 +15,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/prodivers/toasts/toastContext';
 import { MIN_PASSWORD_CH, MAX_PASSWORD_CH } from '@/utils/maxLength';
 import { useNavigate, useParams } from 'react-router-dom';
+import { API_ROUTES } from '@/utils/api';
 
 const ResetPasswordForm = () => {
 
@@ -64,7 +65,7 @@ const ResetPasswordForm = () => {
 
   async function onSubmit (values: FormFields) {
     try {
-      const res = await axios.patch(`https://dozynodejs-fm9v49nn.b4a.run/api/v1/users/resetPassword/${resetToken}`, {
+      const res = await axios.patch(API_ROUTES.resetPassword(resetToken), {
         password: values.password,
         passwordConfirm: values.passwordConfirm,
       })

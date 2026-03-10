@@ -4,6 +4,7 @@ import { useToast } from "../toasts/toastContext";
 import axios from "axios";
 import api from "@/api";
 import { User } from "@/types";
+import { API_ROUTES } from '@/utils/api';
 
 
 export const AuthProdiver = ({children}: PropsWithChildren) => {
@@ -40,7 +41,7 @@ export const AuthProdiver = ({children}: PropsWithChildren) => {
 
   const logout = async () => {
     try {
-      const res = await axios.get('https://dozynodejs-fm9v49nn.b4a.run/api/v1/users/logout', {
+      const res = await axios.get(API_ROUTES.logout, {
         withCredentials: true
       })
 

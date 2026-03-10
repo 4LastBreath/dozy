@@ -17,6 +17,7 @@ import { MAX_USERNAME_CH, MIN_PASSWORD_CH, MAX_PASSWORD_CH } from '@/utils/maxLe
 import { useAuth } from '@/prodivers/auth/authContext';
 import { useNavigate } from 'react-router-dom';
 import ReCAPTCHA from "react-google-recaptcha";
+import { API_ROUTES } from '@/utils/api';
 
 const SignUpForm = () => {
 
@@ -89,7 +90,7 @@ const SignUpForm = () => {
 
   async function onSubmit (values: FormFields) {
     try {
-      const res = await axios.post('https://dozynodejs-fm9v49nn.b4a.run/api/v1/users/signup', {
+      const res = await axios.post(API_ROUTES.signup, {
         username: values.username,
         email: values.email,
         password: values.password,

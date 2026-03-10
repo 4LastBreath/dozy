@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/prodivers/toasts/toastContext';
+import { API_ROUTES } from '@/utils/api';
 
 const RecoverAccountForm = () => {
 
@@ -35,7 +36,7 @@ const RecoverAccountForm = () => {
 
   async function onSubmit (values: FormFields) {
     try {
-      const res = await axios.post('https://dozynodejs-fm9v49nn.b4a.run/api/v1/users/recoverAccount', {
+      const res = await axios.post(API_ROUTES.recoverAccount, {
         email: values.email,
       })
 
